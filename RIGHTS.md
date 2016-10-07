@@ -33,4 +33,6 @@ all uses of the work, to the fullest extent permitted by applicable law.
 When using or citing the work, you should not imply endorsement by the
 author or the affirmer.
 
+## Acknowledgment
+
 Source of Rights Statement Text: [U.S. National Archives and Records Administration](https://github.com/usnationalarchives)
