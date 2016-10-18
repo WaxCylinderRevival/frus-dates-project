@@ -20,6 +20,7 @@ declare option output:method "text";
 let $coll := collection('frus-volumes')
 let $docs := $coll//tei:div[attribute::type='document']
 let $total := count($docs)
+
 let $date := $docs//tei:dateline/tei:date
 
 let $attributes :=
