@@ -1,6 +1,6 @@
 (:~ 
 : Script Overview: This .xq script gathers the number of date elements
-: within a single dateline
+: within a single dateline in an opener
 : FRUS-VOLUMES//tei:div[attribute::type='document']/tei:opener/tei:dateline/tei:date
 : and sorts by frequency.
 : Results in markdown-friendly text.
