@@ -1,3 +1,14 @@
+(:~ 
+: Script Overview: This .xq script gathers all children or descendants of 
+: FRUS-VOLUMES//tei:div[attribute::type='document']//tei:dateline
+: and sorts by frequency.
+: Results in markdown-friendly text.
+: All mistakes my own.
+:
+: @author: Amanda T. Ross
+: @since: 2016-10
+:)
+
 xquery version "3.1";
 
 declare namespace tei="http://www.tei-c.org/ns/1.0";
@@ -17,7 +28,9 @@ let $children :=
 let $descendants :=
   for $descName in $docs/tei:opener/tei:dateline//*/name()
   return $descName
+  
 (: for children of dateline :)
+
 let $cRows :=
   for $dName in distinct-values($docs/tei:opener/tei:dateline/*/name())
   let $freq :=  count($children[matches(.,$dName)])
@@ -31,7 +44,8 @@ Children of `dateline` | Frequency | Overall Percentage
 {$cRows}
 </text>
 
-(: for descendants of dateline
+(: for descendants of dateline :)
+(:
 let $dRows :=
   for $dName in distinct-values($docs/tei:opener/tei:dateline//*/name())
   let $freq :=  count($descendants[matches(.,$dName)])
@@ -45,4 +59,3 @@ Descendants of `dateline` | Frequency | Overall Percentage
 {$dRows}
 </text>
 :)
-  
