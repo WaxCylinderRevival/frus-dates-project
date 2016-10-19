@@ -17,6 +17,11 @@ declare namespace tei="http://www.tei-c.org/ns/1.0";
 declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
 declare option output:method "text";
 
+<text>
+Number of `dateline` | Frequency | Overall Percentage
+--- | --- | ---
+{
+
 let $coll := collection('frus-volumes')
 let $docs := $coll//tei:div[attribute::type='document']
 let $total := count($docs)
@@ -29,16 +34,11 @@ let $dlCounts :=
   return
     <doc id="{$id}">{$dlCount}</doc>
     
-let $rows :=
-  for $d in distinct-values(data($dlCounts))
+for $d in distinct-values(data($dlCounts))
   let $match := count($dlCounts[matches(.,$d)])
   let $mPercent := format-number(($match div $total),'##0.##%')
   order by xs:integer($match) descending
   return concat($d,' | ',$match,' | ',$mPercent,'&#10;')
- 
-return 
-<text>
-Number of `dateline` | Frequency | Overall Percentage
---- | --- | ---
-{$rows}
+
+}
 </text>
