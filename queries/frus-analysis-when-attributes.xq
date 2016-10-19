@@ -19,8 +19,6 @@ import module namespace functx="http://www.functx.com" at "http://www.xqueryfunc
 declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
 declare option output:method "text";
 
-(: Needs Review, Cleanup :)
-
 let $coll := collection('frus-volumes')
 let $docs := $coll//tei:div[attribute::type='document']
 
