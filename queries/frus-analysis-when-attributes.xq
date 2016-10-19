@@ -21,6 +21,7 @@ declare option output:method "text";
 
 let $coll := collection('frus-volumes')
 let $docs := $coll//tei:div[attribute::type='document']
+let $total := count($docs)
 
 let $when := $docs//tei:dateline/tei:date/attribute::when
 let $castAs :=
@@ -36,20 +37,22 @@ let $castAs :=
 let $whenResults := 
   for $type in distinct-values($castAs)
   let $count := count($castAs[. eq $type])
-  let $percent := format-number(($count div (count($docs//tei:dateline/tei:date)) * 100),'##0.#%')
+  let $percent := format-number(($count div count($docs//tei:dateline/tei:date)),'##0.##%')
+  let $percentOverall := format-number(($count div $total),'##0.##%')
   order by $count descending
-  return concat($type,' | ',$count,' | ',$percent,'%&#10;')
+  return concat($type,' | ',$count,' | ',$percent,' | ',$percentOverall,'&#10;')
   
 let $noWhenResults :=
   let $noW := $docs//tei:dateline/tei:date[not(attribute::when)]
   let $noWCount := count($noW)
-  let $noWPercent := format-number(($noWCount div (count($docs//tei:dateline/tei:date)) * 100),'##0.##%')
-  return concat('no `@when` | ', $noWCount,' | ',$noWPercent)
+  let $noWPercent := format-number(($noWCount div count($docs//tei:dateline/tei:date)),'##0.##%')
+  let $noWPercentOverall := format-number(($noWCount div $total),'##0.##%')
+  return concat('no `@when` | ', $noWCount,' | ',$noWPercent,' | ',$noWPercentOverall)
   
 return
 <text>
-Type | Frequency | Overall Percentage
---- | --- | ---
+Type | Frequency | Percentage of `date` | Overall Percentage
+--- | --- | --- | ---
 {$whenResults}
 {$noWhenResults}
 </text>
