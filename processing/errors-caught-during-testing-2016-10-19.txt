@@ -1,0 +1,48 @@
+
+**`@when` data outside of date coverage range of parent _FRUS_ volume**
+
+Outlier data in `when` | Frequency | Issue | Example Entry | Example URIs
+--- | --- | --- | --- | ---
+1905-05-04 | 2 | `@when` outside of volume date range | 1951. | <ul><li>https://history.state.gov/historicaldocuments/frus1951v06p1/d552</li><li>https://history.state.gov/historicaldocuments/frus1951v06p1/d553</li></ul>
+ 2014-05-24T18:00:00 | 2 | `@when` outside of volume date range | May 24, 1951—6 p. m. | <ul><li>https://history.state.gov/historicaldocuments/frus1951v06p2/d475</li><li>https://history.state.gov/historicaldocuments/frus1951v06p2/d492</li></ul>
+ 1045-11-29T20:00:00 | 1 | `@when` outside of volume date range | November 29, 1045—8 p.m. | <ul><li>https://history.state.gov/historicaldocuments/frus1945v03/d466</li></ul>
+ 1629-05-19T16:29:00 | 1 | `@when` outside of volume date range | May 19, 1982, 1629Z | <ul><li>https://history.state.gov/historicaldocuments/frus1981-88v13/d274</li></ul>
+ 1725-10-03T17:25:00 | 1 | `@when` outside of volume date range | October 3, 1725Z | <ul><li>https://history.state.gov/historicaldocuments/frus1969-76ve11p2/d143</li></ul>
+ 1910-07-11 | 1 | `@when` outside of volume date range | July 11, 1910 | <ul><li>https://history.state.gov/historicaldocuments/frus1940v05/d414</li></ul>
+ 1910-09-25T16:00:00 | 1 | `@when` outside of volume date range | September 25, 1910, 4 p. m. | <ul><li>https://history.state.gov/historicaldocuments/frus1915Supp/d327</li></ul>
+ 1994-09-14 | 1 | `@when` outside of volume date range | 14th Sept[ember] 1944 | <ul><li>https://history.state.gov/historicaldocuments/frus1944Quebec/d186</li></ul>
+ 2014-01-20T16:00:00 | 1 | `@when` outside of volume date range | January 20, 1951—4 p. m. | <ul><li>https://history.state.gov/historicaldocuments/frus1951v06p2/d428</li></ul>
+ 2014-01-24T20:00:00 | 1 | `@when` outside of volume date range | January 24, 1951—8 p. m. | <ul><li>https://history.state.gov/historicaldocuments/frus1951v06p2/d429</li></ul>
+ 2014-01-27T18:00:00 | 1 | `@when` outside of volume date range | January 27, 1951—6 p. m. | <ul><li>https://history.state.gov/historicaldocuments/frus1951v06p2/d430</li></ul>
+ 2014-01-27T19:00:00 | 1 | `@when` outside of volume date range | January 27, 1951—7 p. m. | <ul><li>https://history.state.gov/historicaldocuments/frus1951v06p2/d431</li></ul>
+ 2014-02-02T19:00:00 | 1 | `@when` outside of volume date range | February 2, 1951—7 p. m. | <ul><li>https://history.state.gov/historicaldocuments/frus1951v06p2/d436</li></ul>
+ 2014-02-03T13:00:00 | 1 | `@when` outside of volume date range | February 3, 1951—1 p. m. | <ul><li>https://history.state.gov/historicaldocuments/frus1951v06p2/d438</li></ul>
+ 2014-02-11 | 1 | `@when` outside of volume date range | Feb. 11 | <ul><li>https://history.state.gov/historicaldocuments/frus1945Malta/d469</li></ul>
+ 2014-03-10T18:00:00 | 1 | `@when` outside of volume date range | March 10, 1951—6 p. m. | <ul><li>https://history.state.gov/historicaldocuments/frus1951v06p2/d445</li></ul>
+ 2014-03-18T13:00:00 | 1 | `@when` outside of volume date range | March 18, 1951—1 p. m. | <ul><li>https://history.state.gov/historicaldocuments/frus1951v06p2/d446</li></ul>
+ 2014-03-24T15:00:00 | 1 | `@when` outside of volume date range | March 24, 1951—3 p. m. | <ul><li>https://history.state.gov/historicaldocuments/frus1951v06p2/d447</li></ul>
+ 2014-03-28T14:00:00 | 1 | `@when` outside of volume date range | March 28, 1951—2 p. m. | <ul><li>https://history.state.gov/historicaldocuments/frus1951v06p2/d448</li></ul>
+ 2014-03-31T14:00:00 | 1 | `@when` outside of volume date range | March 31, 1951—2 p. m. | <ul><li>https://history.state.gov/historicaldocuments/frus1951v06p2/d451</li></ul>
+ 2014-04-03T10:00:00 | 1 | `@when` outside of volume date range | April 3, 1951—10 a. m. | <ul><li>https://history.state.gov/historicaldocuments/frus1951v06p2/d453</li></ul>
+ 2014-04-03T18:00:00 | 1 | `@when` outside of volume date range | April 3, 1951—6 p. m. | <ul><li>https://history.state.gov/historicaldocuments/frus1951v06p2/d454</li></ul>
+ 2014-04-05T17:00:00 | 1 | `@when` outside of volume date range | April 5, 1951—5 p. m. | <ul><li>https://history.state.gov/historicaldocuments/frus1951v06p2/d455</li></ul>
+ 2014-04-12T17:00:00 | 1 | `@when` outside of volume date range | April 12, 1951—5 p. m. | <ul><li>https://history.state.gov/historicaldocuments/frus1951v06p2/d459</li></ul>
+ 2014-04-17T19:00:00 | 1 | `@when` outside of volume date range | April 17, 1951—7 p. m. | <ul><li>https://history.state.gov/historicaldocuments/frus1951v06p2/d462</li></ul>
+ 2014-04-22T13:00:00 | 1 | `@when` outside of volume date range | April 22, 1951—1 p. m. | <ul><li>https://history.state.gov/historicaldocuments/frus1951v06p2/d464</li></ul>
+ 2014-05-01T16:00:00 | 1 | `@when` outside of volume date range | May 1, 1951—4 p. m. | <ul><li>https://history.state.gov/historicaldocuments/frus1951v06p2/d466</li></ul>
+ 2014-05-04T15:00:00 | 1 | `@when` outside of volume date range | May 4, 1951—3 p. m. | <ul><li>https://history.state.gov/historicaldocuments/frus1951v06p2/d468</li></ul>
+ 2014-05-06T19:00:00 | 1 | `@when` outside of volume date range | May 6, 1951—7 p. m. | <ul><li>https://history.state.gov/historicaldocuments/frus1951v06p2/d469</li></ul>
+ 2014-05-07T20:00:00 | 1 | `@when` outside of volume date range | May 7, 1951—8 p. m. | <ul><li>https://history.state.gov/historicaldocuments/frus1951v06p2/d470</li></ul>
+ 2014-05-08T13:00:00 | 1 | `@when` outside of volume date range | May 8, 1951—1 p. m. | <ul><li>https://history.state.gov/historicaldocuments/frus1951v06p2/d472</li></ul>
+ 2014-05-10T17:00:00 | 1 | `@when` outside of volume date range | May 10, 1951—5 p. m. | <ul><li>https://history.state.gov/historicaldocuments/frus1951v06p2/d473</li></ul>
+ 2014-05-11T14:00:00 | 1 | `@when` outside of volume date range | May 11, 1951—2 p. m. | <ul><li>https://history.state.gov/historicaldocuments/frus1951v06p2/d490</li></ul>
+ 2014-05-15T10:00:00 | 1 | `@when` outside of volume date range | May 15, 1951—10 a. m. | <ul><li>https://history.state.gov/historicaldocuments/frus1951v06p2/d491</li></ul>
+ 2014-05-22T13:00:00 | 1 | `@when` outside of volume date range | May 22, 1951—11 p. m. | <ul><li>https://history.state.gov/historicaldocuments/frus1951v06p2/d474</li></ul>
+ 2014-05-25T20:00:00 | 1 | `@when` outside of volume date range | May 25, 1951—8 p. m. | <ul><li>https://history.state.gov/historicaldocuments/frus1951v06p2/d476</li></ul>
+ 2014-06-06T13:00:00 | 1 | `@when` outside of volume date range | June 6, 1951—1 p. m. | <ul><li>https://history.state.gov/historicaldocuments/frus1951v06p2/d477</li></ul>
+ 2014-06-07T19:00:00 | 1 | `@when` outside of volume date range | June 7, 1951—7 p. m. | <ul><li>https://history.state.gov/historicaldocuments/frus1951v06p2/d478</li></ul>
+ 2014-09-06T16:00:00 | 1 | `@when` outside of volume date range | September 6, 1951—4 p. m. | <ul><li>https://history.state.gov/historicaldocuments/frus1951v06p2/d483</li></ul>
+ 2014-09-14T13:00:00 | 1 | `@when` outside of volume date range | September 14, 1951—1 p. m. | <ul><li>https://history.state.gov/historicaldocuments/frus1951v06p2/d484</li></ul>
+ 2014-09-17T17:00:00 | 1 | `@when` outside of volume date range | September 17, 1951—5 p. m. | <ul><li>https://history.state.gov/historicaldocuments/frus1951v06p2/d485</li></ul>
+ 2014-10-24T16:00:00 | 1 | `@when` outside of volume date range | October 24, 1951—4 p. m. | <ul><li>https://history.state.gov/historicaldocuments/frus1951v06p2/d486</li></ul>
+ 2014-11-07T23:00:00 | 1 | `@when` outside of volume date range | November 7, 1951—11 p. m. | <ul><li>https://history.state.gov/historicaldocuments/frus1951v06p2/d488</li></ul>
