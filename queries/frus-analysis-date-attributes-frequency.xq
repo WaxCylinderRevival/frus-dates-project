@@ -17,6 +17,11 @@ import module namespace functx="http://www.functx.com" at "http://www.xqueryfunc
 declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
 declare option output:method "text";
 
+<text>
+Attribute Name | Frequency | Overall Percentage
+--- | --- | ---
+{
+
 let $coll := collection('frus-volumes')
 let $docs := $coll//tei:div[attribute::type='document']
 let $total := count($docs)
@@ -28,16 +33,11 @@ let $attributes :=
   let $aName:= name($attribute)
   return $aName
   
-let $rows :=
-  for $a in distinct-values($attributes)
+for $a in distinct-values($attributes)
   let $freq := count($attributes[matches(.,$a)])
   let $percent := format-number(($freq div $total),'##0.##%')
   order by $freq descending
   return concat('`',$a,'` | ',$freq,' | ',$percent,'&#10;')
-  
-return
-<text>
-Attribute Name | Frequency | Overall Percentage
---- | --- | ---
-{$rows}
+
+}
 </text>
