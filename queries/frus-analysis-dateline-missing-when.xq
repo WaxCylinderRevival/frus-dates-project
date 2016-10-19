@@ -16,6 +16,11 @@ declare namespace tei="http://www.tei-c.org/ns/1.0";
 declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
 declare option output:method "text";
 
+<text>
+Issue | Frequency | Example of Current FRUS Encoding | Examples of Possibly Errant Encoding
+--- | --- | --- | ---
+{
+
 let $coll := collection('frus-volumes')
 let $docs := $coll//tei:div[attribute::type='document']
 let $total := count($docs)
@@ -66,9 +71,6 @@ let $qFTiso :=
 
 return
 
-<text>
-Issue | Frequency | Example of Current FRUS Encoding | Examples of Possibly Errant Encoding
---- | --- | --- | ---
 {$noAttributes}
 {$undated}
 {$notUndated}
@@ -77,4 +79,5 @@ Issue | Frequency | Example of Current FRUS Encoding | Examples of Possibly Erra
 {$qToNoFrom}
 {$qWhenISO}
 {$qFTiso}
+}
 </text>
