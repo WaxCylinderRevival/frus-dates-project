@@ -17,7 +17,7 @@ declare namespace tei="http://www.tei-c.org/ns/1.0";
 let $coll := collection('frus-volumes')
 let $docs := $coll//tei:div[attribute::type='document']
 
-let $q := 2 (: Type number of dates in datelines (e.g. 2, 4) :)
+let $q := 2 (: Type desired number of dates in datelines (e.g. 2, 4) :)
 
 for $doc in $docs
   let $vol := $doc/ancestor::node()//tei:publicationStmt/tei:idno[attribute::type='frus']
