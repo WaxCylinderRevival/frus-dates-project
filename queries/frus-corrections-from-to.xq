@@ -19,7 +19,7 @@ let $volID := data($vol/attribute::xml:id)
 
 let $docs :=
 
-  for $doc in ($coll//tei:div[attribute::type='document'])
+  for $doc in ($vol//tei:div[attribute::type='document'])
   
   let $docID := data($doc/attribute::xml:id)
   
