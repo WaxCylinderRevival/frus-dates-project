@@ -14,11 +14,32 @@ declare option output:method "text";
 :)
   
 let $coll := collection('frus-volumes')
-for $dateAtt in data($coll//tei:date/attribute::when | from | to)
 
-where 
-  not($dateAtt castable as xs:date)
-  and
-  not($dateAtt castable as xs:dateTime)
+for $doc in $coll//tei:div[attribute::type='document']
 
-return data($dateAtt)
+let $docID := data($doc/attribute::xml:id)
+let $volID := data($doc/ancestor::tei:TEI/attribute::xml:id)
+let $url := concat('https://history.state.gov/historicaldocuments/',$volID,'/',$docID)
+
+let $dateOutlier :=
+
+  for $dateAtt in data($doc//tei:date/attribute::when | from | to)
+  
+  where 
+    not($dateAtt castable as xs:date)
+    and
+    not($dateAtt castable as xs:dateTime)
+  
+  return <dateOutlier>{data($dateAtt)}</dateOutlier>
+  
+where
+  not(empty($dateOutlier))
+
+return 
+
+<issue>
+  <docURL>{$url}</docURL>
+  <possibleErrors>
+  {$dateOutlier}
+  </possibleErrors>
+</issue>
