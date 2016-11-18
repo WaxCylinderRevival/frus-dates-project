@@ -38,12 +38,12 @@ let $docs :=
     
     let $ZuluText := normalize-space(data($Zulu))
     
-    let $ZuluWhen :=  functx:substring-before-if-contains(xs:string(data($Zulu/attribute::when)),'Z')
+    let $ZuluWhen := data($Zulu/attribute::when)
 
      where not(contains(xs:string($ZuluWhen),'+00:00'))
 
     
-    return concat('  Dateline entry: ', $ZuluText, '&#10;  - [ ] Correct `@when` from `', $ZuluWhen, '` to: `', $ZuluWhen, '+00:00`')
+    return concat('  Dateline entry: ', $ZuluText, '&#10;  - [ ] Correct `@when` from `', $ZuluWhen, '` to: `', functx:substring-before-if-contains(xs:string($ZuluWhen),'Z'), '+00:00`')
   
   where not(empty($dateZulu))
   
@@ -56,6 +56,6 @@ where not(empty($docs))
 order by $volID 
   
 return 
-concat('------------&#10;Correct date/@when for Zulu time in ',$volID,' &#10;`date` with Zulu time in volume ',$volID,'&#10;',string-join($docs,'&#10;'))
+concat('&#10;------------&#10;Correct date/@when for Zulu time in ',$volID,' &#10;`date` with Zulu time in volume ',$volID,'&#10;',string-join($docs,'&#10;'))
 }
 </text>
