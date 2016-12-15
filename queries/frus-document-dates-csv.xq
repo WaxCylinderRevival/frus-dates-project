@@ -2,14 +2,20 @@ xquery version "3.1";
 
 declare namespace tei="http://www.tei-c.org/ns/1.0";
 
-import module namespace dates="http://xqdev.com/dateparser" at "xmldb:exist:///db/apps/twitter/modules/date-parser.xqm";
+(:
+import module namespace dates="http://xqdev.com/dateparser" at "xmldb:exist://db/apps/twitter/modules/date-parser.xqm";
+:)
 
 import module namespace functx="http://www.functx.com" at "http://www.xqueryfunctions.com/xq/functx-1.0-nodoc-2007-01.xq";
 
+declare option output:method "csv";
+declare option output:csv "header=yes";
+
 (: Not Complete :)
 
-let $vols := doc('/db/apps/frus/volumes/frus1969-76v03.xml')
-let $documents := $vols//tei:div[attribute::type='document']
+let $coll := collection('frus-volumes')
+let $vols := doc($coll/frus1969-76v03.xml)
+let $documents := $coll//tei:div[attribute::type='document']
 for $doc in $documents
 let $docID := data($doc/attribute::xml:id)
 
@@ -35,7 +41,7 @@ return
 if (empty($dateCertaintyTest))
 then "estimated"
 else "certain"
-let $precision := "Need to determine"
+let $precision := "To determine"
 
 let $head := $doc/tei:head[not(note)]
 let $docType := 
@@ -56,8 +62,11 @@ let $sourceToken := tokenize($source,',')
 let $repositoryPrimary := normalize-space($sourceToken[1])
 let $repositoryUnit := normalize-space($sourceToken[2])
 
-let $volID := substring-before(util:document-name($doc), '.xml')
+let $volID := substring-before(document-uri($doc), '.xml')
+
+(:
 let $volCoverage := doc(concat('/db/apps/frus/bibliography/', $volID, '.xml'))/volume/coverage
+:)
 
 return 
 <record>
@@ -82,6 +91,9 @@ return
     <repository>{data($repositoryPrimary)}</repository>
     <repositoryUnit>{data($repositoryUnit)}</repositoryUnit>
     <documentSourceNote>{data($sourceNote)}</documentSourceNote>
-    <volumeStartDate>{data($volCoverage[1])}</volumeStartDate>
+    (:
+    <volumeStartDate>{data($volCoverage[1])}</volumeStartDate> :)
+    (:
     <volumeEndDate>{data($volCoverage[2])}</volumeEndDate>
+    :)
 </record>
