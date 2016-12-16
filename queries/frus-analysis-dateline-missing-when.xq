@@ -71,13 +71,6 @@ let $qFTiso :=
 
 return
 
-{$noAttributes}
-{$undated}
-{$notUndated}
-{$qFromTo}
-{$qFromNoTo}
-{$qToNoFrom}
-{$qWhenISO}
-{$qFTiso}
+concat($noAttributes, $undated, $notUndated, $qFromTo, $qFromNoTo, $qToNoFrom,  $qWhenISO, $qFTiso)
 }
 </text>
