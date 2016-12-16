@@ -39,6 +39,6 @@ let $dateCounts :=
 for $d in distinct-values($dateCounts)    let $match := count($dateCounts[matches(.,$d)])
   let $mPercent := format-number(($match div $total),'##0.##%')
   order by $match descending
-  return concat($d,' | ',$match,' | ',$mPercent, '%&#10;')
+  return concat($d,' | ',$match,' | ',$mPercent, '&#10;')
 }
 </text>
