@@ -23,8 +23,6 @@ let $docs :=
   for $doc in $vol//tei:div[attribute::type='document']
   
   let $docID := data($doc/attribute::xml:id)
-
-  let $docID := data($doc/attribute::xml:id)
   
   let $id := concat(data($volID),'/',data($docID))
   
@@ -43,13 +41,13 @@ let $docs :=
      where not(contains(xs:string($ZuluWhen),'+00:00'))
 
     
-    return concat('  Dateline entry: ', $ZuluText, '&#10;  - [ ] Correct `@when` from `', $ZuluWhen, '` to: `', functx:substring-before-if-contains(xs:string($ZuluWhen),'Z'), '+00:00`')
+    return concat('  Dateline entry: ', $ZuluText, '&#10;  - [x] Correct `@when` from `', $ZuluWhen, '` to: `', functx:substring-before-if-contains(xs:string($ZuluWhen),'Z'), '+00:00`&#10;    - Revised encoding:&#10;```xml&#10;&#10;```')
   
   where not(empty($dateZulu))
   
-  order by $url
+  order by xs:numeric(substring-after($docID,'d'))
   
-  return concat('- [ ] ', $url, '&#10;', string-join($dateZulu, '&#10;'))
+  return concat('- [x] ', $url, '&#10;', string-join($dateZulu, '&#10;'))
 
 where not(empty($docs)) 
 
