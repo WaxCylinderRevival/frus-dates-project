@@ -43,7 +43,7 @@ let $docs :=
      where not(contains(xs:string($ZuluWhen),'+00:00'))
 
     
-    return concat('  Dateline entry: ', $ZuluText, '&#10;  - [ ] Correct `@when` from `', $ZuluWhen, '` to: `', functx:substring-before-if-contains(xs:string($ZuluWhen),'Z'), '+00:00`')
+    return concat('  Dateline entry: ', $ZuluText, '&#10;  - [ ] Correct `@when` from `', $ZuluWhen, '` to: `', functx:substring-before-if-contains(xs:string($ZuluWhen),'Z'), '+??:00`')
   
   where not(empty($dateZulu))
   

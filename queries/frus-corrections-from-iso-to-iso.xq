@@ -27,6 +27,6 @@ let $dateline := $docs//tei:dateline[1]
 where 
   $dateline[tei:date[attribute::from-iso][attribute::to-iso]]
 
-return concat('Change @from-iso and to-iso in ',$id,'&#10;- [ ] ', $url, '&#10;  - [ ] Adjust attributes in `',normalize-spac$date,'`')
+return concat('Change @from-iso and to-iso in ',$id,'&#10;- [ ] ', $url, '&#10;  - [ ] Adjust attributes in `',normalize-space(data($dateline/tei:date)),'`')
 }
 </text>
