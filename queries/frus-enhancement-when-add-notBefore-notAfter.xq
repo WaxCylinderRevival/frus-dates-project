@@ -46,29 +46,29 @@ let $docIssues :=
     let $notBefore :=
     
       if (matches($w,'^\d{4}$'))
-      then concat($w,'-01-01')
+      then concat($w,'-01-01T00:00:00')
       else 
         if (matches($w,'^\d{4}-\d{2}$'))
-        then concat($w,'-01')
+        then concat($w,'-01T00:00:00')
           else 'error'
         
     let $notAfter := 
       if (matches($w,'^\d{4}$'))
-      then concat($w,'-12-31')
+      then concat($w,'-12-31T23:59:59')
       else 
         if (matches($w,'^\d{4}-\d{2}$'))
         then
           if ($month = $days30)
-          then concat($w,'-30')
+          then concat($w,'-30T23:59:59')
           else          
             if (xs:integer(data(substring($w,6,2))) = $days31)
-            then concat($w,'-31')
+            then concat($w,'-31T23:59:59')
             else
               if ($year = $leapYears)
-              then concat($w,'-29')
+              then concat($w,'-29T23:59:59')
               else
                 if (not($year = $leapYears))
-                then concat($w,'-28')
+                then concat($w,'-28T23:00:00')
                 else 'wait'
   
         else 'error'
@@ -84,7 +84,7 @@ let $docIssues :=
       return 
        <impreciseDate>
          <original>{$d}</original>
-         <replacement>{functx:add-attributes($d, (xs:QName('notBefore'), xs:QName('notAfter'), xs:QName('ana')), ($notBefore ,$notAfter,'date_imprecise-inferred-from-date-rules'))}</replacement>
+         <replacement>{functx:add-attributes($d, (xs:QName('notBefore'), xs:QName('notAfter'), xs:QName('ana')), ($notBefore ,$notAfter,'#date_imprecise-inferred-from-date-rules'))}</replacement>
        </impreciseDate>
 
   let $frOriginal := (' xmlns="http://www.tei-c.org/ns/1.0" ')
