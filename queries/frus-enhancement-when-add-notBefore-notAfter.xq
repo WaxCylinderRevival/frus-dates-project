@@ -68,7 +68,7 @@ let $docIssues :=
               then concat($w,'-29T23:59:59')
               else
                 if (not($year = $leapYears))
-                then concat($w,'-28T23:00:00')
+                then concat($w,'-28T23:59:59')
                 else 'wait'
   
         else 'error'
