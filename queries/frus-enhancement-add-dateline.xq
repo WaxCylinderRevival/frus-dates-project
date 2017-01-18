@@ -1,8 +1,9 @@
 (:~ 
-: Script Overview: This .xq script evaluates two volumes
-: that are missing datelines
-: and creates datelines by scrubbing
-: the placeName and date from head.
+: Script Overview: This .xq script evaluates 
+: FRUS volumes containing documents missing 
+: <dateline> and creates <dateline> per 
+: document by repeating the <placeName> and
+: <date> from <head>.
 : Results in markdown-friendly text.
 : All mistakes my own.
 :
