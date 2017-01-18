@@ -64,10 +64,9 @@ let $docIssues :=
     ('  - [x] Add `dateline`:&#10;```xml&#10;<dateline>',$newDateline,'</dateline>&#10;```'),'&#10;'))
 
 
-where not(empty($docIssues)) 
-
-(:: 
-and (matches($vID, '1969-76ve10'))
-:)
+where 
+  (not(empty($docIssues))) 
+  and
+  (matches($vID, 've'))
 
 return concat('Add missing `dateline` in ', $vID,'&#10;',string-join($docIssues,'&#10;'),'&#10;----------&#10;')
