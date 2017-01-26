@@ -38,7 +38,7 @@ let $docIssues :=
   let $url := concat('https://history.state.gov/historicaldocuments/',$volID,'/',$docID)
   
   let $impreciseWhens :=
-    for $d in $doc//tei:date
+    for $d in $doc//tei:dateline/tei:date
     let $w := normalize-space($d/attribute::when)
     let $year := xs:integer(data(substring($w,1,4)))
     let $month := xs:integer(data(substring($w,6,2)))
