@@ -17,7 +17,16 @@ let $coll := collection('frus-volumes')
 let $placeEntry := data($coll//tei:div[attribute::type='document']//tei:dateline/tei:placeName)
 
 for $p in distinct-values($placeEntry)
-let $pNormal := normalize-space($p)
-order by $pNormal ascending
-return $pNormal
+  let $pNormal := normalize-space($p)
+  let $matches := 
+    for $m in $coll//tei:div[attribute::type='document'][matches(normalize-space(//tei:dateline/tei:placeName),$pNormal)]
+    let $docID := data($m/attribute::xml:id)
+    return <document>{$docID}</document>
+    
+  order by $pNormal ascending
+  return 
+  <match>
+  <placeName>{$pNormal}</placeName>
+  <matchingDocuments>{$matches}</matchingDocuments>
+  </match>
 

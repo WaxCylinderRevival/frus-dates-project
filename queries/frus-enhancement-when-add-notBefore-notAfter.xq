@@ -93,7 +93,7 @@ let $docIssues :=
   let $frReplacement := ('([0-9])\.</date>','\s\s+', ' xmlns="http://www.tei-c.org/ns/1.0"','([a-z]) \[\?\](\d{4})','(January|February|March|April|May|June|July|August|September|October|November|December)(\d{4})')
   let $toReplacement := ('$1</date>.',' ', '','$1[?] $2','$1 $2')
        
-  where not(empty($impreciseWhens))
+  where not(empty($impreciseWhens)) and ($vID eq 'frus1951v01')
   
   return 
   concat('- [x] ',$url,'&#10;',string-join(
