@@ -148,14 +148,14 @@ let $docIssues :=
     
     if (exists($timeTo))
     then 
-    <date from="{concat(data($dISO),'T',data($timeFromISO))}" to="{concat(data($dISO),'T',data($timeToISO))}">{$d}, {$timeFrom} to {$timeTo}</date>
+    <date from="{concat(data($dISO),'T',data($timeFromISO))}" to="{concat(data($dISO),'T',data($timeToISO))}" ana="#date_undated-inferred-from-document-head">{$d}, {$timeFrom} to {$timeTo}</date>
     else
       if (exists($timeFrom))
       then 
-      <date when="{concat(data($dISO),'T',data($timeFromISO))}">{$d}, {$timeFrom}</date>
+      <date when="{concat(data($dISO),'T',data($timeFromISO))}" ana="#date_undated-inferred-from-document-head">{$d}, {$timeFrom}</date>
       else
         if (exists($d))
-        then <date when="{data($dISO)}">{$d}</date>
+        then <date when="{data($dISO)}" ana="#date_undated-inferred-from-document-head">{$d}</date>
         else <date>undated</date>
    
   let $date := 
@@ -188,7 +188,7 @@ let $docIssues :=
 
   let $pMatch := 
 
-    let $cities := '(Berlin|Buenos Aires|New York|Paris|Washington)'
+    let $cities := '(Abu Dhabi|Abuja|Accra|Addis Ababa|Algiers|Amman|Andorra la Vella|Ankara|Antananarivo|Apia|Ashgabat|Asmara|Astana|Asuncion|Athens|Baku|Bandar Seri Begawan|Baghdad|Bamako|Bangkok|Bangui|Banjul|Basseterre|Beijing|Beirut|Belgrade|Belmopan|Belfast|Berlin|Bern|Bishkek|Bissau|Bogota|Brasilia|Bratislava|Brazzaville|Bridgetown|Brussels|Budapest|Bucharest|Buenos Aires|Bujumbura|Cairo|Canberra|Caracas|Cardiff|Castries|Cayenne|Chisinau|Kishinev|Colombo|Conakry|Copenhagen|Dakar|Damascus|Dhaka|Dar es Salaam|Dili|Djibouti|Doha|Dublin|Dushanbe|Edinburgh|Freetown|Gaborone|Georgetown|Guatemala City|Hanoi|Harare|Havana|Helsinki|Honiara|Islamabad|Jakarta|Juba|Kabul|Kathmandu|Kampala|Khartoum|Kiev|Kigali|Kingston|Kingstown|Kinshasa|Kuala Lumpur|Kuwait City|La Paz|Libreville|Lilongwe|Lima|Lisbon|Ljubljana|Lome|London|London|Luanda|Lusaka|Luxembourg|Madrid|Majuro|Malabo|Male|Managua|Manama|Manila|Maputo|Maseru|Mbabana|Melekeok|Mexico City|Minsk|Mogadishu|Monaco|Monrovia|Montevideo|Moroni|Moscow|Muscat|Nairobi|Nassau|N&#39;Djamena|New Delhi|Niamey|Nicosia|Nouakchott|Nuku&#39;alofa|Ouagadougou|Oslo|Ottawa|Palikir|Panama City|Paramaribo|Paris|Phnom Penh|Podgorica|Port au Prince|Port Louis|Port Moresby|Port of Spain|Port Vila|Porto Novo|Prague|Praia|Pretoria|Pristina|Pyongyang|Quito|Rabat|Rangoon|Yangon|Reykjavik|Riga|Riyadh|Rome|Roseau|Saint George&#39;s|Saint John&#39;s|San Jose|San Marino|San Salvador|Sanaa|Santiago|Santo Domingo|Sao Tome|Sarajevo|Seoul|Singapore|Skopje|Sofia|Stockholm|Suva|Taipei|Tallinn|Tarawa Atoll|Tashkent|Tbilisi|Tegucigalpa|Tehran|Tel Aviv|Amsterdam|Thimphu|Tirana|Tirane|Tokyo|Tripoli|Tunis|Ulaanbaatar|Vaduz|Vaiaku village|Valletta|Vatican City|Victoria|Vienna|Vientiane|Vilnius|Warsaw|Washington|Washington, D.C.|Wellington|Windhoek|Yamoussoukro|Yaounde|Yerevan|Zagreb)'
     
     return
       if (matches($phraseBefore, $cities))
@@ -206,48 +206,52 @@ let $docIssues :=
     else ''
 
 
-  let $newDateline :=
-    if (exists($place) and not($place eq ''))
-    then
-      <dateline>
-        {$place}, {functx:replace-multi($date,$fr,$to)}
-      </dateline>
-    else
-      if (exists($pMatch) and not($pMatch eq ''))
+let $newDateline :=
+    
+      if (exists($place) and not($place eq ''))
       then
         <dateline>
-          {serialize($pMatch)}, {functx:replace-multi($date,$fr,$to)}
+          {$place}, {functx:replace-multi($date,$fr,$to)}
         </dateline>
       else
-       <dateline>
-            {functx:replace-multi($date, $fr, $to)}
-       </dateline>
-      (:
-        if (exists($doc//tei:head/tei:date))
+        if (exists($pMatch) and not($pMatch eq ''))
         then
           <dateline>
-            {functx:replace-multi($date, $fr, $to)}
+            {serialize($pMatch)}, {functx:replace-multi($date,$fr,$to)}
           </dateline>
-        else 
-          <dateline>
-            {$date}
-          </dateline>
-          :)
+        else
+         <dateline>
+              {functx:replace-multi($date, $fr, $to)}
+         </dateline>
+
+let $unmarkedDateline := 
+  for $u in $doc//tei:p[tei:date]
+  let $s := serialize(functx:remove-attributes-deep($u,('xmlns','xmlns:frus','xmlns:xi')))
+  let $sFr := ('<p([ >])', '</p>', ' xmlns="http://www.tei-c.org/ns/1.0"')
+  let $sTo := ('<dateline$1', '</dateline>', '')
+  return functx:replace-multi($s, $sFr, $sTo)
+
        
   where
     (: (exists($doc//tei:head/tei:date)) and:)
     
     (not(exists($doc//tei:dateline))) and
-    (not(empty($newDateline)))
+    ((not(empty($newDateline))) or not(empty($unmarkedDateline)))
   
   return 
-  concat('- [x] ',$url,'&#10;',string-join(
-    ('  - [x] Add `dateline`:&#10;```xml&#10;<dateline>',$newDateline,'</dateline>&#10;```'),'&#10;'))
-
+  
+    if (not(empty($unmarkedDateline)))
+    then concat('- [x] ',$url,'&#10;',string-join(
+  ('  - [x] Edit existing `p` to `dateline` (Move to `closer` as necessary):&#10;```xml&#10;',$unmarkedDateline,'&#10;```'),'&#10;'))
+    else
+      if (not(empty($newDateline)))
+      then concat('- [x] ',$url,'&#10;',string-join(
+      ('  - [x] Add `dateline`:&#10;```xml&#10;<dateline>',$newDateline,'</dateline>&#10;```'),'&#10;'))
+      else 'error'
 
 where 
   (not(empty($docIssues))) 
   and
-  (matches($vID, 'frus1952-54v04'))
+  (matches($vID, 'frus1914Supp'))
 
 return concat('Add missing `dateline` in ', $vID,'&#10;',string-join($docIssues,'&#10;'),'&#10;----------&#10;')
