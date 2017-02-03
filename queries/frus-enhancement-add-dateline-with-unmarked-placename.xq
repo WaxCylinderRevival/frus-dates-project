@@ -33,9 +33,11 @@ let $docIssues :=
   let $volID := data($doc/ancestor::tei:TEI/attribute::xml:id)
   let $url := concat('https://history.state.gov/historicaldocuments/',$volID,'/',$docID)
 
+  let $head := functx:remove-elements-not-contents($doc//tei:head, 'hi')
+
   let $dResult :=
   
-    let $d := (tokenize(functx:trim(serialize(functx:get-matches(normalize-space(serialize(data($doc//tei:head))),'(January|February|March|April|May|June|July|August|September|October|November|December) \d{1,2}, \d{4}'))),'\s\s+'))[1]
+    let $d := (tokenize(functx:trim(serialize(functx:get-matches(normalize-space(serialize(data($head))),'(January|February|March|April|May|June|July|August|September|October|November|December) \d{1,2}, \d{4}'))),'\s\s+'))[1]
         
     let $year := substring-after($d, ', ')
     let $month :=
@@ -57,9 +59,20 @@ let $docIssues :=
         
     let $dISO := concat($year,'-',$month,'-',functx:pad-integer-to-length($day,2))
     
-    let $phraseBeforeDate := normalize-space(serialize(functx:substring-after-last(normalize-space(substring-before(serialize(data($doc//tei:head)),concat(', ', data($d)))),', ')))
+    let $phraseBeforeDate := 
+
+    (: 
+    normalize-space(serialize(functx:substring-after-last(normalize-space(substring-before(serialize(data()),concat(', ', data($d)))),', ')))
+    :)
+    
+    functx:substring-after-last(substring-before(normalize-space(serialize(data($head))),concat(', ', data($d))),', ')
+    
+    let $phraseAfterDate := substring-after(normalize-space(serialize(data($head))), concat(data($d),', '))
     
     let $timeFrom := 
+    
+    if (matches(data($phraseBeforeDate),'(\d{1,2}(:\d{2})? [ap]\.m\.|noon|midnight)'))
+    then 
 (
   tokenize(
     functx:trim(
@@ -72,6 +85,23 @@ let $docIssues :=
   )
     ,'\s\s+')
 )[1]
+    else 
+      if (matches(data($phraseAfterDate),'(\d{1,2}(:\d{2})? [ap]\.m\.|noon|midnight)'))
+      then
+      (
+  tokenize(
+    functx:trim(
+      serialize(
+        functx:get-matches(
+          data($phraseAfterDate),
+          '(\d{1,2}(:\d{2})? [ap]\.m\.|noon|midnight)'
+        )
+      )
+  )
+    ,'\s\s+')
+)[1]
+      
+      else null
 
     let $timeFromISO :=
     
@@ -103,6 +133,9 @@ let $docIssues :=
                  else ''
  
     let $timeTo := 
+    
+    if (matches($phraseBeforeDate, '(\d{1,2}(:\d{2})? [ap]\.m\.|noon|midnight)'))
+    then
       (
         tokenize(
           functx:trim(
@@ -115,6 +148,22 @@ let $docIssues :=
         )
           ,'\s\s+')
       )[2]
+      else
+        if (matches($phraseAfterDate, '(\d{1,2}(:\d{2})? [ap]\.m\.|noon|midnight)'))
+        then
+         (
+        tokenize(
+          functx:trim(
+            serialize(
+              functx:get-matches(
+                data($phraseAfterDate),
+                '(\d{1,2}(:\d{2})? [ap]\.m\.|noon|midnight)'
+              )
+            )
+        )
+          ,'\s\s+')
+      )[2]
+        else null
 
     let $timeToISO :=
          
@@ -159,7 +208,7 @@ let $docIssues :=
         else <date>undated</date>
    
   let $date := 
-    if (exists($doc//tei:head/tei:date))
+    if (exists($head/tei:date))
     then
       normalize-space(serialize(
     functx:remove-attributes-deep(functx:remove-elements-not-contents($doc//tei:date,'hi'),('xmlns','xmlns:frus','xmlns:xi'))))  
@@ -178,7 +227,7 @@ let $docIssues :=
         functx:substring-after-last(
           normalize-space(
             substring-before(
-              serialize(data($doc//tei:head)), ', '
+              serialize(data($head)), ', '
               (:
               concat(', ', data($date))
               :)
@@ -199,10 +248,10 @@ let $docIssues :=
   let $to := ('')
 
   let $place := 
-    if (exists($doc//tei:head/tei:placeName))
+    if (exists($head/tei:placeName))
     then 
       functx:replace-multi(normalize-space(serialize(
-    functx:remove-attributes-deep($doc//tei:head/tei:placeName,('xmlns','xmlns:frus','xmlns:xi')))),$fr,$to)
+    functx:remove-attributes-deep($head/tei:placeName,('xmlns','xmlns:frus','xmlns:xi')))),$fr,$to)
     else ''
 
 
@@ -233,7 +282,7 @@ let $unmarkedDateline :=
 
        
   where
-    (: (exists($doc//tei:head/tei:date)) and:)
+    (: (exists($head/tei:date)) and:)
     
     (not(exists($doc//tei:dateline))) and
     ((not(empty($newDateline))) or not(empty($unmarkedDateline)))
@@ -252,6 +301,6 @@ let $unmarkedDateline :=
 where 
   (not(empty($docIssues))) 
   and
-  (matches($vID, 'frus1914Supp'))
+  (matches($vID, 'frus1939v01'))
 
 return concat('Add missing `dateline` in ', $vID,'&#10;',string-join($docIssues,'&#10;'),'&#10;----------&#10;')
