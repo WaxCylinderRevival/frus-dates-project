@@ -68,6 +68,6 @@ let $docIssues :=
 where 
   (not(empty($docIssues))) 
   and
-  (matches($vID, 've'))
+  (matches($vID, 'frus1955-57v25'))
 
 return concat('Add missing `dateline` in ', $vID,'&#10;',string-join($docIssues,'&#10;'),'&#10;----------&#10;')

@@ -2,3 +2,9 @@
 queries/frus-document-dates-csv.xq
 
 queries/frus-test.xq
+
+queries/frus-enhancement-add-dateline-testing.xq
+
+queries/experiment.xq
+
+queries/frus-enhancement-datelines-test.xq
