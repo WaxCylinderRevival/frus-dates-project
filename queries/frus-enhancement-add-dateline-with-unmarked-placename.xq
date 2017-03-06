@@ -34,7 +34,8 @@ let $docIssues :=
   let $url := concat('https://history.state.gov/historicaldocuments/',$volID,'/',$docID)
 
   let $head := functx:remove-elements-not-contents($doc/tei:head, 'hi')
-
+  
+  let $dateInHead := $head/tei:date
   let $dResult :=
   
     let $d := (tokenize(functx:trim(serialize(functx:get-matches(normalize-space(serialize(data($head))),'(January|February|March|April|May|June|July|August|September|October|November|December) \d{1,2}, \d{4}'))),'\s\s+'))[1]
@@ -212,10 +213,10 @@ let $docIssues :=
         else <date>undated</date>
    
   let $date := 
-    if (exists($head/tei:date))
+    if (exists($dateInHead))
     then
       normalize-space(serialize(
-    functx:remove-attributes-deep(functx:remove-elements-not-contents($doc//tei:date,'hi'),('xmlns','xmlns:frus','xmlns:xi'))))  
+    functx:remove-attributes-deep(functx:remove-elements-not-contents($dateInHead,'hi'),('xmlns','xmlns:frus','xmlns:xi'))))  
       else
       serialize($dResult)
 
@@ -305,7 +306,7 @@ let $unmarkedDateline :=
 where 
   (not(empty($docIssues))) 
   and
-  (matches($vID, 'frus1952-54v16'))
+  (matches($vID, 'frus1952-54v07p2'))
 
 
 return concat('Add missing `dateline` in ', $vID,'&#10;',string-join($docIssues,'&#10;'), '&#10;----------&#10;')
