@@ -305,8 +305,7 @@ let $unmarkedDateline :=
 where 
   (not(empty($docIssues))) 
   and
-  (matches($vID, 'frus1952-54v16'))
-
+  (matches($vID, 'frus1961-63v07-09mSupp'))
 
 return concat('Add missing `dateline` in ', $vID,'&#10;',string-join($docIssues,'&#10;'), '&#10;----------&#10;')
 
