@@ -35,10 +35,12 @@ let $docIssues :=
 
   let $head := functx:remove-elements-not-contents($doc/tei:head, 'hi')
   
+  let $headReplace := replace(replace(data($head), 'p. m.', 'p.m.'),'a. m.', 'a.m.')
+  
   let $dateInHead := $head/tei:date
   let $dResult :=
   
-    let $d := (tokenize(functx:trim(serialize(functx:get-matches(normalize-space(serialize(data($head))),'(January|February|March|April|May|June|July|August|September|October|November|December) \d{1,2}, \d{4}'))),'\s\s+'))[1]
+    let $d := (tokenize(functx:trim(serialize(functx:get-matches(normalize-space(serialize(data($headReplace))),'(January|February|March|April|May|June|July|August|September|October|November|December) \d{1,2}, \d{4}'))),'\s\s+'))[1]
         
     let $year := substring-after($d, ', ')
     let $month :=
@@ -66,9 +68,9 @@ let $docIssues :=
     normalize-space(serialize(functx:substring-after-last(normalize-space(substring-before(serialize(data()),concat(', ', data($d)))),', ')))
     :)
     
-    functx:substring-after-last(substring-before(normalize-space(serialize(data($head))),concat(', ', data($d))),', ')
+    functx:substring-after-last(substring-before(normalize-space(serialize(data($headReplace))),concat(', ', data($d))),', ')
     
-    let $phraseAfterDate := substring-after(normalize-space(serialize(data($head))), concat(data($d),', '))
+    let $phraseAfterDate := substring-after(normalize-space(serialize(data($headReplace))), concat(data($d),', '))
     
     let $timeFrom := 
     
@@ -307,7 +309,7 @@ where
   (not(empty($docIssues))) 
   and
 
-  (matches($vID, 'frus1961-63v07-09mSupp'))
+  (matches($vID, 'frus1949v04'))
 
 return concat('Add missing `dateline` in ', $vID,'&#10;',string-join($docIssues,'&#10;'), '&#10;----------&#10;')
 
