@@ -35,7 +35,7 @@ let $docIssues :=
 
   let $head := functx:remove-elements-not-contents($doc/tei:head, 'hi')
   
-  let $headReplace := replace(replace(data($head), 'p. m.', 'p.m.'),'a. m.', 'a.m.')
+  let $headReplace := replace(replace(replace(data($head), 'p.\s+m.', 'p.m.'),'a.\s+m.', 'a.m.'),'Noon','noon')
   
   let $dateInHead := $head/tei:date
   let $dResult :=
@@ -309,7 +309,7 @@ where
   (not(empty($docIssues))) 
   and
 
-  (matches($vID, 'frus1949v04'))
+  (matches($vID, 'frus1947v03'))
 
 return concat('Add missing `dateline` in ', $vID,'&#10;',string-join($docIssues,'&#10;'), '&#10;----------&#10;')
 
