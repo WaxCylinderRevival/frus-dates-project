@@ -288,7 +288,7 @@ let $unmarkedDateline :=
 let $possibleCloserDateline := 
 
   for $possibleCloser in $doc/tei:p[last()]
-  let $possibleCloserDate := (tokenize(functx:trim(serialize(functx:get-matches(normalize-space(serialize(data($possibleCloser))),'((\d{1,2}[(nd)(th)(st)]*\s+(January|February|March|April|May|June|July|August|September|October|November|December),*\s+\d{4})|((January|February|March|April|May|June|July|August|September|October|November|December)\s+\d{1,2}[(nd)(th)(st)]*,\s+\d{4}))'))),'\s\s+'))[1]
+  let $possibleCloserDate := (tokenize(functx:trim(serialize(functx:get-matches(normalize-space(serialize(data($possibleCloser))),'((\d{1,2}[(st)(nd)(rd)(th)]*\s+(January|February|March|April|May|June|July|August|September|October|November|December),*\s+\d{4})|((January|February|March|April|May|June|July|August|September|October|November|December)\s+\d{1,2}[(st)(nd)(rd)(th)]*,\s+\d{4}))'))),'\s\s+'))[1]
   
 
   let $pcdYear := functx:trim(serialize(functx:get-matches($possibleCloserDate, '\d{4}$')))    
@@ -328,7 +328,7 @@ let $possibleCloserDateline :=
         
     let $possiblePlace := <placeName>{functx:trim(normalize-space(serialize(functx:get-matches(data($possibleCloser), $cities))))}</placeName>
     
-    where $possibleCloser[matches(.,'((\d{1,2}[(nd)(th)(st)]*\s+(January|February|March|April|May|June|July|August|September|October|November|December),*\s+\d{4})|((January|February|March|April|May|June|July|August|September|October|November|December)\s+\d{1,2}[(nd)(th)(st)]*,\s+\d{4}))')]
+    where $possibleCloser[matches(.,'((\d{1,2}[(st)(nd)(rd)(th)]*\s+(January|February|March|April|May|June|July|August|September|October|November|December),*\s+\d{4})|((January|February|March|April|May|June|July|August|September|October|November|December)\s+\d{1,2}[(st)(nd)(rd)(th)]*,\s+\d{4}))')]
 
   return 
   <closer>
