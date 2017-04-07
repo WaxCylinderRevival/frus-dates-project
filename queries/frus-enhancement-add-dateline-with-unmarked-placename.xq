@@ -309,7 +309,7 @@ where
   (not(empty($docIssues))) 
   and
 
-  (matches($vID, 'frus1947v03'))
+  (matches($vID, 'frus1946v08'))
 
 return concat('Add missing `dateline` in ', $vID,'&#10;',string-join($docIssues,'&#10;'), '&#10;----------&#10;')
 
