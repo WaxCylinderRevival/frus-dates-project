@@ -19,7 +19,7 @@ declare namespace tei="http://www.tei-c.org/ns/1.0";
 
 import module namespace functx="http://www.functx.com" at "functx-1.0.xq";
 
-let $q := 'frus1945v04'
+let $q := 'frus1945v07'
 
 let $coll := collection('frus-volumes')[matches(//tei:TEI/attribute::xml:id,$q)]
 
@@ -288,9 +288,9 @@ let $unmarkedDateline :=
   
 
 let $postscriptDateline := 
-  for $postscriptDate in $doc//tei:postscript/tei:p[tei:date]
+  for $postscriptDate in $doc//tei:postscript[tei:p/tei:date]
   let $postscriptDateS := serialize(functx:remove-attributes-deep($postscriptDate,('xmlns','xmlns:frus','xmlns:xi')))
-  let $postscriptDateFr := ('<p([ >])', '</p>', ' xmlns="http://www.tei-c.org/ns/1.0"')
+  let $postscriptDateFr := ('<postscript>\s+<p([ >])', '</p>\s+</postscript>', ' xmlns="http://www.tei-c.org/ns/1.0"')
   let $postscriptDateTo := ('<dateline$1', '</dateline>', '')
   return <closer>{functx:replace-multi($postscriptDate, $postscriptDateFr, $postscriptDateTo)}</closer>
   
