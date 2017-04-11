@@ -19,7 +19,7 @@ declare namespace tei="http://www.tei-c.org/ns/1.0";
 
 import module namespace functx="http://www.functx.com" at "functx-1.0.xq";
 
-let $q := 'frus1945v07'
+let $q := 'frus1945v09'
 
 let $coll := collection('frus-volumes')[matches(//tei:TEI/attribute::xml:id,$q)]
 
@@ -41,6 +41,8 @@ let $docIssues :=
   let $headReplace := replace(replace(data($head), 'p. m.', 'p.m.'),'a. m.', 'a.m.')
   
   let $dateInHead := $head/tei:date
+  
+  (: dateTime in Head :)
   let $dResult :=
   
     let $d := (tokenize(functx:trim(serialize(functx:get-matches(normalize-space(serialize(data($headReplace))),'(January|February|March|April|May|June|July|August|September|October|November|December)\s+\d{1,2},\s+\d{4}'))),'\s\s+'))[1]
@@ -66,10 +68,6 @@ let $docIssues :=
     let $dISO := concat($year,'-',$month,'-',functx:pad-integer-to-length($day,2))
     
     let $phraseBeforeDate := 
-
-    (: 
-    normalize-space(serialize(functx:substring-after-last(normalize-space(substring-before(serialize(data()),concat(', ', data($d)))),', ')))
-    :)
     
     functx:substring-after-last(substring-before(normalize-space(serialize(data($headReplace))),concat(', ', data($d))),', ')
     
@@ -78,34 +76,10 @@ let $docIssues :=
     let $timeFrom := 
     
     if (matches(data($phraseBeforeDate),'(\d{1,2}(:\d{2})? [ap]\.m\.|noon|midnight)'))
-    then 
-(
-  tokenize(
-    functx:trim(
-      serialize(
-        functx:get-matches(
-          data($phraseBeforeDate),
-          '(\d{1,2}(:\d{2})? [ap]\.m\.|noon|midnight)'
-        )
-      )
-  )
-    ,'\s\s+')
-)[1]
+    then (tokenize(functx:trim(serialize(functx:get-matches(data($phraseBeforeDate), '(\d{1,2}(:\d{2})? [ap]\.m\.|noon|midnight)'))),'\s\s+'))[1]
     else 
       if (matches(data($phraseAfterDate),'(\d{1,2}(:\d{2})? [ap]\.m\.|noon|midnight)'))
-      then
-      (
-  tokenize(
-    functx:trim(
-      serialize(
-        functx:get-matches(
-          data($phraseAfterDate),
-          '(\d{1,2}(:\d{2})? [ap]\.m\.|noon|midnight)'
-        )
-      )
-  )
-    ,'\s\s+')
-)[1]
+      then (tokenize(functx:trim(serialize(functx:get-matches(data($phraseAfterDate), '(\d{1,2}(:\d{2})? [ap]\.m\.|noon|midnight)'))),'\s\s+'))[1]
       
       else null
 
@@ -142,36 +116,12 @@ let $docIssues :=
  
     let $timeTo := 
     
-    if (matches($phraseBeforeDate, '(\d{1,2}(:\d{2})? [ap]\.m\.|noon|midnight)'))
-    then
-      (
-        tokenize(
-          functx:trim(
-            serialize(
-              functx:get-matches(
-                data($phraseBeforeDate),
-                '(\d{1,2}(:\d{2})? [ap]\.m\.|noon|midnight)'
-              )
-            )
-        )
-          ,'\s\s+')
-      )[2]
+      if (matches($phraseBeforeDate, '(\d{1,2}(:\d{2})? [ap]\.m\.|noon|midnight)'))
+      then (tokenize(functx:trim(serialize(functx:get-matches(data($phraseBeforeDate), '(\d{1,2}(:\d{2})? [ap]\.m\.|noon|midnight)'))),'\s\s+'))[2]
       else
-        if (matches($phraseAfterDate, '(\d{1,2}(:\d{2})? [ap]\.m\.|noon|midnight)'))
-        then
-         (
-        tokenize(
-          functx:trim(
-            serialize(
-              functx:get-matches(
-                data($phraseAfterDate),
-                '(\d{1,2}(:\d{2})? [ap]\.m\.|noon|midnight)'
-              )
-            )
-        )
-          ,'\s\s+')
-      )[2]
-        else null
+          if (matches($phraseAfterDate, '(\d{1,2}(:\d{2})? [ap]\.m\.|noon|midnight)'))
+          then (tokenize(functx:trim(serialize(functx:get-matches(data($phraseAfterDate), '(\d{1,2}(:\d{2})? [ap]\.m\.|noon|midnight)'))),'\s\s+'))[2]
+          else null
 
     let $timeToISO :=
          
@@ -225,6 +175,7 @@ let $docIssues :=
       else
       serialize($dResult)
 
+  (: Place in Head :)
   let $placeEntry := data($coll//tei:div[attribute::type='document']//tei:dateline/tei:placeName)
   
   let $placeList :=
@@ -260,9 +211,8 @@ let $docIssues :=
     functx:remove-attributes-deep($head/tei:placeName,('xmlns','xmlns:frus','xmlns:xi')))),$fr,$to)
     else ''
 
-
-let $newDateline :=
-    
+  (: New Dateline from Head :)
+  let $newDateline :=    
       if (exists($place) and not($place eq ''))
       then
         <dateline>
@@ -279,6 +229,7 @@ let $newDateline :=
               {functx:replace-multi($date, $fr, $to)}
          </dateline>
 
+(: Unmarked Dateline in Text :)
 let $unmarkedDateline := 
   for $u in $doc//tei:p[tei:date]
   let $s := serialize(functx:remove-attributes-deep($u,('xmlns','xmlns:frus','xmlns:xi')))
@@ -287,70 +238,94 @@ let $unmarkedDateline :=
   return functx:replace-multi($s, $sFr, $sTo)
   
 
+(: Unmarked Dateline in Postscript:)
 let $postscriptDateline := 
-  for $postscriptDate in $doc//tei:postscript
-  let $postscriptDateS := serialize(functx:remove-attributes-deep($postscriptDate,('xmlns','xmlns:frus','xmlns:xi')))
-  let $postscriptDateFr := ('<postscript([ >])','</postscript>','<p([ >])', '</p>', ' xmlns="http://www.tei-c.org/ns/1.0"')
-  let $postscriptDateTo := ('<closer$1','</closer>','<dateline>', '</dateline>')
-
-  return functx:replace-multi($postscriptDateS, $postscriptDateFr, $postscriptDateTo)
+  for $postscript in $doc//tei:postscript
   
+  let $psDate := (tokenize(functx:trim(serialize(functx:get-matches(normalize-space(serialize(data($postscript))),'((\d{1,2}[(st)(nd)(rd)(th)]*\s+(January|February|March|April|May|June|July|August|September|October|November|December),*\s+\d{4})|((January|February|March|April|May|June|July|August|September|October|November|December)\s+\d{1,2}[(st)(nd)(rd)(th)]*,\s+\d{4}))'))),'\s\s+'))[1]
+  
+  let $psYear := functx:trim(serialize(functx:get-matches($psDate, '\d{4}$')))    
 
+  let $psDay := (tokenize(functx:trim(serialize(functx:get-matches(normalize-space(substring-before($psDate, xs:string($psYear))),'\d{1,2}'))),'\s\s+'))[1]
+
+  let $psMonth :=
+    switch (functx:trim((serialize(functx:get-matches($psDate,'(January|February|March|April|May|June|July|August|September|October|November|December)')))))
+    case "January" return "01"
+    case "February" return "02"
+    case "March" return "03"
+    case "April" return "04"
+    case "May" return "05"
+    case "June" return "06"
+    case "July" return "07"
+    case "August" return "08"
+    case "September" return "09"
+    case "October" return "10"
+    case "November" return "11"
+    case "December" return "12"
+    default return "error"  
+    
+  let $psISO := concat($psYear,'-',$psMonth,'-',functx:pad-integer-to-length($psDay,2))
+        
+  let $psPlace := <placeName><hi rend="smallcaps">{functx:trim(normalize-space(serialize(functx:get-matches(data($postscript), $cities))))}</hi></placeName>
+    
+  where $postscript[matches(.,'((\d{1,2}[(st)(nd)(rd)(th)]*\s+(January|February|March|April|May|June|July|August|September|October|November|December),*\s+\d{4})|((January|February|March|April|May|June|July|August|September|October|November|December)\s+\d{1,2}[(st)(nd)(rd)(th)]*,\s+\d{4}))')]
+
+  return 
+    if (not(empty($psPlace)))
+    then 
+      <closer>
+         <dateline>{$psPlace}, <date when="{$psISO}">{$psDate}</date>.</dateline>
+      </closer>
+    else
+        if (not(empty($psDate)))
+        then 
+          <closer>
+            <dateline><date when="{$psISO}">{$psDate}</date>.</dateline>
+          </closer>
+        else ''
+
+(: Unmarked Dateline in Last Paragraph of Document :)
 let $possibleCloserDateline := 
 
   for $possibleCloser in functx:remove-elements-not-contents($doc/tei:p[last()],'hi')
   let $possibleCloserDate := (tokenize(functx:trim(serialize(functx:get-matches(normalize-space(serialize(data($possibleCloser))),'((\d{1,2}[(st)(nd)(rd)(th)]*\s+(January|February|March|April|May|June|July|August|September|October|November|December),*\s+\d{4})|((January|February|March|April|May|June|July|August|September|October|November|December)\s+\d{1,2}[(st)(nd)(rd)(th)]*,\s+\d{4}))'))),'\s\s+'))[1]
-  
 
-  let $pcdYear := functx:trim(serialize(functx:get-matches($possibleCloserDate, '\d{4}$')))    
-             
-    let $pcdDay := 
-    (
-      tokenize(
-        functx:trim(
-          serialize(
-            functx:get-matches(
-              normalize-space(
-                substring-before($possibleCloserDate, xs:string($pcdYear))
-              )
-            ,'\d{1,2}')
-          )
-        )
-      ,'\s\s+')
-    )[1]
+  let $pcdYear := functx:trim(serialize(functx:get-matches($possibleCloserDate, '\d{4}$')))                
+  let $pcdDay := (tokenize(functx:trim(serialize(functx:get-matches(normalize-space(substring-before($possibleCloserDate, xs:string($pcdYear))),'\d{1,2}'))),'\s\s+'))[1]
     
-    let $pcdMonth :=
-        switch (functx:trim((serialize(functx:get-matches($possibleCloserDate,'(January|February|March|April|May|June|July|August|September|October|November|December)')))))
-         case "January" return "01"
-         case "February" return "02"
-         case "March" return "03"
-         case "April" return "04"
-         case "May" return "05"
-         case "June" return "06"
-         case "July" return "07"
-         case "August" return "08"
-         case "September" return "09"
-         case "October" return "10"
-         case "November" return "11"
-         case "December" return "12"
-         default return "error"  
+  let $pcdMonth :=
+    switch (functx:trim((serialize(functx:get-matches($possibleCloserDate,'(January|February|March|April|May|June|July|August|September|October|November|December)')))))
+    case "January" return "01"
+    case "February" return "02"
+    case "March" return "03"
+    case "April" return "04"
+    case "May" return "05"
+    case "June" return "06"
+    case "July" return "07"
+    case "August" return "08"
+    case "September" return "09"
+    case "October" return "10"
+    case "November" return "11"
+    case "December" return "12"
+    default return "error"  
     
-    let $pcdISO := concat($pcdYear,'-',$pcdMonth,'-',functx:pad-integer-to-length($pcdDay,2))
+  let $pcdISO := concat($pcdYear,'-',$pcdMonth,'-',functx:pad-integer-to-length($pcdDay,2))
         
-    let $possiblePlace := <placeName><hi rend="smallcaps">{functx:trim(normalize-space(serialize(functx:get-matches(data($possibleCloser), $cities))))}</hi></placeName>
+  let $possiblePlace := <placeName><hi rend="smallcaps">{functx:trim(normalize-space(serialize(functx:get-matches(data($possibleCloser), $cities))))}</hi></placeName>
     
-    where $possibleCloser[matches(.,'((\d{1,2}[(st)(nd)(rd)(th)]*\s+(January|February|March|April|May|June|July|August|September|October|November|December),*\s+\d{4})|((January|February|March|April|May|June|July|August|September|October|November|December)\s+\d{1,2}[(st)(nd)(rd)(th)]*,\s+\d{4}))')]
+  where $possibleCloser[matches(.,'((\d{1,2}[(st)(nd)(rd)(th)]*\s+(January|February|March|April|May|June|July|August|September|October|November|December),*\s+\d{4})|((January|February|March|April|May|June|July|August|September|October|November|December)\s+\d{1,2}[(st)(nd)(rd)(th)]*,\s+\d{4}))')]
 
   return 
   <closer>
     <dateline>{$possiblePlace}, <date when="{$pcdISO}">{$possibleCloserDate}</date>.</dateline>
-  </closer>
+  </closer> 
     
-  where
-    (: (exists($head/tei:date)) and:)
+where
     
-    (not(exists($doc//tei:dateline))) and
-    ((not(empty($newDateline))) or not(empty($unmarkedDateline)))
+  (not(exists($doc//tei:dateline))) and
+  (
+    not(empty($newDateline)) or not(empty($unmarkedDateline)) or not(empty($postscriptDateline)) or not(empty($possibleCloserDateline))
+  )
 
   return 
   
@@ -360,9 +335,8 @@ let $possibleCloserDateline :=
     else
       if (not(empty($postscriptDateline)))
       then concat('- [x] ',$url,'&#10;',string-join(
-  ('  - [x] Edit existing `postscript/p` to `closer/dateline` :&#10;```xml&#10;',$postscriptDateline,'&#10;```'),'&#10;'))
+  ('  - [x] Edit existing `postscript/p` to `closer/dateline` :&#10;```xml&#10;',serialize($postscriptDateline),'&#10;```'),'&#10;'))
       else
-    
           if (not(empty($possibleCloserDateline)))
           then concat('- [x] ',$url,'&#10;',string-join(
     ('  - [x] Edit existing `p` and add `dateline` to new `closer`:&#10;```xml',serialize($possibleCloserDateline),'```&#10;**OR**&#10;  - [x] Add `dateline`:&#10;```xml&#10;<dateline>',$newDateline,'</dateline>&#10;```'),'&#10;'))
