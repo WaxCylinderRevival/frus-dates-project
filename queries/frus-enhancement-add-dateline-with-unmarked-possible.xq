@@ -288,11 +288,12 @@ let $unmarkedDateline :=
   
 
 let $postscriptDateline := 
-  for $postscriptDate in $doc//tei:postscript[tei:p/tei:date]
+  for $postscriptDate in $doc//tei:postscript
   let $postscriptDateS := serialize(functx:remove-attributes-deep($postscriptDate,('xmlns','xmlns:frus','xmlns:xi')))
-  let $postscriptDateFr := ('<postscript>\s+<p([ >])', '</p>\s+</postscript>', ' xmlns="http://www.tei-c.org/ns/1.0"')
-  let $postscriptDateTo := ('<dateline$1', '</dateline>', '')
-  return <closer>{functx:replace-multi($postscriptDate, $postscriptDateFr, $postscriptDateTo)}</closer>
+  let $postscriptDateFr := ('<postscript([ >])','</postscript>','<p([ >])', '</p>', ' xmlns="http://www.tei-c.org/ns/1.0"')
+  let $postscriptDateTo := ('<closer$1','</closer>','<dateline>', '</dateline>')
+
+  return functx:replace-multi($postscriptDateS, $postscriptDateFr, $postscriptDateTo)
   
 
 let $possibleCloserDateline := 
