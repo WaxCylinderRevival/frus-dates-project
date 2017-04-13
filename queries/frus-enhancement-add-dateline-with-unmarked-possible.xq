@@ -19,7 +19,7 @@ declare namespace tei="http://www.tei-c.org/ns/1.0";
 
 import module namespace functx="http://www.functx.com" at "functx-1.0.xq";
 
-let $q := 'frus1944Quebec'
+let $q := 'frus1943v05'
 
 let $coll := collection('frus-volumes')[matches(//tei:TEI/attribute::xml:id,$q)]
 
@@ -38,7 +38,7 @@ let $docIssues :=
   let $url := concat('https://history.state.gov/historicaldocuments/',$volID,'/',$docID)
 
   let $head := functx:remove-elements-not-contents($doc/tei:head, 'hi')  
-  let $headReplace := replace(replace(data($head), 'p. m.', 'p.m.'),'a. m.', 'a.m.')
+  let $headReplace := normalize-space(replace(replace(data($head), 'p. m.', 'p.m.'),'a. m.', 'a.m.'))
   
   let $dateInHead := $head/tei:date
   
@@ -197,8 +197,8 @@ let $docIssues :=
          ', ')    
 
   let $pMatch := 
-      if (matches($head, $cities))
-      then <placeName>{functx:trim(normalize-space(serialize(functx:get-matches($head, $cities))))}</placeName>
+      if (matches($headReplace, $cities))
+      then <placeName>{functx:trim(normalize-space(serialize(functx:get-matches($headReplace, $cities))))}</placeName>
       else '' 
 
   let $fr := (' xmlns="http://www.tei-c.org/ns/1.0"')
