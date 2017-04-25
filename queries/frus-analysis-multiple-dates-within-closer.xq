@@ -18,7 +18,7 @@ declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
 declare option output:method "text";
 
 <text>
-Number of `date` within `opener/dateline` | Frequency | Overall Percentage
+Number of `date` within `closer/dateline` | Frequency | Overall Percentage
 --- | --- | ---
 {
 
@@ -29,7 +29,7 @@ let $total := count($docs)
 let $dateCounts :=
   for $doc in $docs
   let $id := data($doc/attribute::xml:id)
-  let $date := $doc//tei:opener/tei:dateline/tei:date
+  let $date := $doc//tei:closer/tei:dateline/tei:date
   let $dateCount := count($date)
   return
     <doc id="{$id}">{$dateCount}</doc>
