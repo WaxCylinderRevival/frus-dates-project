@@ -19,7 +19,7 @@ declare namespace tei="http://www.tei-c.org/ns/1.0";
 
 import module namespace functx="http://www.functx.com" at "functx-1.0.xq";
 
-let $q := 'frus1943v04'
+let $q := 'frus1945Berlinv02'
 
 let $coll := collection('frus-volumes')[matches(//tei:TEI/attribute::xml:id,$q)]
 
@@ -31,7 +31,7 @@ let $cities := '(Aarhus|Aberdeen|Abidjan|Abo|Abu Dhabi|Abuja|Acajutla|Acapulco|A
 
 let $docIssues :=
 
-  for $doc in $v//tei:div[attribute::type='document'][not(contains(tei:head,'Editorial'))]
+  for $doc in $v//tei:div[attribute::type='document'][not(contains(tei:head,'Editor'))]
   
   let $docID := data($doc/attribute::xml:id)
   let $volID := data($doc/ancestor::tei:TEI/attribute::xml:id)
