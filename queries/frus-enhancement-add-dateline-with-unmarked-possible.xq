@@ -19,7 +19,7 @@ declare namespace tei="http://www.tei-c.org/ns/1.0";
 
 import module namespace functx="http://www.functx.com" at "functx-1.0.xq";
 
-let $q := 'frus1865p4'
+let $q := 'frus1919Parisv06'
 
 let $coll := collection('frus-volumes')[matches(//tei:TEI/attribute::xml:id,$q)]
 
@@ -38,7 +38,15 @@ let $docIssues :=
   let $url := concat('https://history.state.gov/historicaldocuments/',$volID,'/',$docID)
 
   let $head := functx:remove-elements-not-contents($doc/tei:head, 'hi')  
-  let $headReplace := normalize-space(replace(replace(data($head), 'p. m.', 'p.m.'),'a. m.', 'a.m.'))
+  let $headReplace := normalize-space(
+    replace(
+      replace(
+        replace(
+          replace(data($head), '([Pp]. m.|[Pp].m.)', 'p.m.'),
+            '([Aa]. m.|[Aa].m.)', 'a.m.'),
+              'Noon', 'noon'),
+                'Midnight', 'midnight')
+      )
   
   let $dateInHead := $head/tei:date
   
@@ -85,13 +93,13 @@ let $docIssues :=
 
     let $timeFromISO :=
     
-      if (matches($timeFrom, 'noon'))
+      if (matches($timeFrom, '(noon)'))
       then '12:00:00'
       else
         if (matches($timeFrom, 'midnight'))
         then '00:00:00'
         else
-          if (contains($timeFrom, 'a.m.'))
+          if (contains($timeFrom, '[Aa].m.'))
           then
             replace(
               replace(
@@ -131,7 +139,7 @@ let $docIssues :=
         if (matches($timeTo, 'midnight'))
         then '00:00:00'
         else
-          if (contains($timeTo, 'a.m.'))
+          if (contains($timeTo, '[Aa].m.'))
           then
             replace(
               replace(
@@ -348,15 +356,14 @@ where
 
 where 
   (not(empty($docIssues))) 
-
-return string-join($docIssues,'&#10;')
-
-
-
 (:
+return string-join($docIssues,'&#10;')
+:)
+
 
 return concat('Add missing `dateline` in ', $vID,'&#10;',string-join($docIssues,'&#10;'), '&#10;----------&#10;')
 
+(:
 return string-join($docIssues,'&#10;')
 :)
 (:,'&#10;----------&#10;') :)
