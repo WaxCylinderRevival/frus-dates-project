@@ -19,7 +19,7 @@ declare namespace tei="http://www.tei-c.org/ns/1.0";
 
 import module namespace functx="http://www.functx.com" at "functx-1.0.xq";
 
-let $q := 'frus1865p4'
+let $q := 'frus1919Parisv10'
 
 let $coll := collection('frus-volumes')[matches(//tei:TEI/attribute::xml:id,$q)]
 
@@ -347,16 +347,19 @@ where
 
 
 where 
-  (not(empty($docIssues))) 
+  (not(empty($docIssues)))
+  
+(:
 
 return string-join($docIssues,'&#10;')
 
+:) 
 
 
-(:
 
 return concat('Add missing `dateline` in ', $vID,'&#10;',string-join($docIssues,'&#10;'), '&#10;----------&#10;')
 
+(:
 return string-join($docIssues,'&#10;')
 :)
 (:,'&#10;----------&#10;') :)
