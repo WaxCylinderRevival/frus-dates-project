@@ -20,7 +20,7 @@ let $total := count($docs)
 
 (: generalStats :)
 
-let $eNoteCount := count($docs/tei:head[not(note)][contains(., 'Editorial Note')]) (: 7765 :)
+let $eNoteCount := count($docs/tei:head[not(note)][matches(., '(Editorial Note|Editor’s Note)')])
 let $eNotePercent := format-number(($eNoteCount div $total),'##0.##%')
 let $hDocCount := $total - $eNoteCount
 let $hDocPercent := format-number(($hDocCount div $total),'##0.##%')

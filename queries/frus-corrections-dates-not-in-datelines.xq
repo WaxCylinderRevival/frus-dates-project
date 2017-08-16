@@ -32,10 +32,13 @@ let $docs :=
     
     let $dateNotInDateline :=
       
-      for $date in $doc//tei:date[not(ancestor::tei:quote)]
+      for $date in $doc//tei:date
     
       where 
-      $date[not(ancestor::tei:dateline)] and $date[not(ancestor::frus:attachment)]
+      $date[not(ancestor::tei:dateline)] 
+      and $date[not(ancestor::frus:attachment)] 
+      and $date[not(ancestor::tei:quote)]
+      and $date[not(ancestor::tei:cit)] 
       
       return concat('Date entry: ',normalize-space(data($date)),'&#10;  - [x] Correct `date` not in `dateline`&#10;    - Revised encoding:&#10;```xml&#10;&#10;```')
       
