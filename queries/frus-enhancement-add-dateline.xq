@@ -25,7 +25,7 @@ let $vID := $v//tei:publicationStmt/tei:idno[attribute::type='frus']
 
 let $docIssues :=
 
-  for $doc in $v//tei:div[attribute::type='document'][not(contains(tei:head,'Editorial'))]
+  for $doc in $v//tei:div[attribute::type='document'][not(matches(tei:head,'(Editorial|Editor’s)'))]
   
   let $docID := data($doc/attribute::xml:id)
   let $volID := data($doc/ancestor::tei:TEI/attribute::xml:id)
