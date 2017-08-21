@@ -19,10 +19,13 @@ declare namespace tei="http://www.tei-c.org/ns/1.0";
 
 import module namespace functx="http://www.functx.com" at "functx-1.0.xq";
 
-let $q := 'frus1945Berlinv02'
+let $q := 'frus1952-54v03'
 
 let $coll := collection('frus-volumes')[matches(//tei:TEI/attribute::xml:id,$q)]
 
+(:
+let $coll := collection('frus-volumes')
+:)
 for $v in ($coll/tei:TEI)
 
 let $vID := $v//tei:publicationStmt/tei:idno[attribute::type='frus']
@@ -42,8 +45,8 @@ let $docIssues :=
     replace(
       replace(
         replace(
-          replace(data($head), '([Pp]. m.|[Pp].m.)', 'p.m.'),
-            '([Aa]. m.|[Aa].m.)', 'a.m.'),
+          replace(data($head), '([Pp]\. m\.|[Pp]\.m\.)', 'p.m.'),
+            '([Aa]\. m\.|[Aa]\.m\.)', 'a.m.'),
               'Noon', 'noon'),
                 'Midnight', 'midnight')
       )
@@ -99,7 +102,7 @@ let $docIssues :=
         if (matches($timeFrom, 'midnight'))
         then '00:00:00'
         else
-          if (contains($timeFrom, '[Aa].m.'))
+          if (contains($timeFrom, 'a.m.'))
           then
             replace(
               replace(
