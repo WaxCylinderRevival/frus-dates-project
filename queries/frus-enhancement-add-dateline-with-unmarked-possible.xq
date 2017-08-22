@@ -23,6 +23,9 @@ let $q := 'frus1948v01p2'
 
 let $coll := collection('frus-volumes')[matches(//tei:TEI/attribute::xml:id,$q)]
 
+(:
+let $coll := collection('frus-volumes')
+:)
 for $v in ($coll/tei:TEI)
 
 let $vID := $v//tei:publicationStmt/tei:idno[attribute::type='frus']
@@ -31,7 +34,7 @@ let $cities := '(Aarhus|Aberdeen|Abidjan|Abo|Abu Dhabi|Abuja|Acajutla|Acapulco|A
 
 let $docIssues :=
 
-  for $doc in $v//tei:div[attribute::type='document'][not(contains(tei:head,'Editor'))]
+  for $doc in $v//tei:div[attribute::type='document'][not(matches(tei:head,'(Editorial|Editor’s)'))]
   
   let $docID := data($doc/attribute::xml:id)
   let $volID := data($doc/ancestor::tei:TEI/attribute::xml:id)
@@ -42,8 +45,8 @@ let $docIssues :=
     replace(
       replace(
         replace(
-          replace(data($head), '([Pp]. m.|[Pp].m.)', 'p.m.'),
-            '([Aa]. m.|[Aa].m.)', 'a.m.'),
+          replace(data($head), '([Pp]\. m\.|[Pp]\.m\.)', 'p.m.'),
+            '([Aa]\. m\.|[Aa]\.m\.)', 'a.m.'),
               'Noon', 'noon'),
                 'Midnight', 'midnight')
       )
@@ -99,7 +102,7 @@ let $docIssues :=
         if (matches($timeFrom, 'midnight'))
         then '00:00:00'
         else
-          if (contains($timeFrom, '[Aa].m.'))
+          if (contains($timeFrom, 'a.m.'))
           then
             replace(
               replace(

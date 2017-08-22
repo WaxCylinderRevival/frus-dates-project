@@ -47,13 +47,13 @@ let $head := $doc/tei:head[not(note)]
 let $docType := 
 let $docTypeTest := string($head)
 return
-if (contains($docTypeTest,'Editorial Note'))
+if (matches($docTypeTest,'(Editorial Note|Editor’s Note)'))
 then "editorial note"
 else "historical document"
 let $dateType := 
 let $dateTypeTest := string($head)
 return
-if (contains($dateTypeTest,'Editorial Note'))
+if (matches($dateTypeTest,'(Editorial Note|Editor’s Note)'))
 then "coverage"
 else "creation"
 let $sourceNote := $doc//tei:note[attribute::type='source'][1]

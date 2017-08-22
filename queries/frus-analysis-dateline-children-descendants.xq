@@ -38,11 +38,9 @@ let $cRows :=
   order by $freq descending
   return concat($dName," | ",$freq," | ",$percent, '&#10;')
 return
-<text>
-Children of `dateline` | Frequency | Overall Percentage
+<text>Children of `dateline` | Frequency | Overall Percentage
 --- | --- | ---
-{$cRows}
-</text>
+{$cRows}</text>
 
 (: for descendants of dateline :)
 (:
@@ -53,9 +51,7 @@ let $dRows :=
   order by $freq descending
   return concat($dName," | ",$freq," | ",$percent, '&#10;')
 return
-<text>
-Descendants of `dateline` | Frequency | Overall Percentage
+<text>Descendants of `dateline` | Frequency | Overall Percentage
 --- | --- | ---
-{$dRows}
-</text>
+{$dRows}</text>
 :)
