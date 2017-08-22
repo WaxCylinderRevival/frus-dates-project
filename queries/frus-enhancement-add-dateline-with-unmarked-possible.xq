@@ -19,7 +19,7 @@ declare namespace tei="http://www.tei-c.org/ns/1.0";
 
 import module namespace functx="http://www.functx.com" at "functx-1.0.xq";
 
-let $q := 'frus1945Berlinv02'
+let $q := 'frus1948v01p2'
 
 let $coll := collection('frus-volumes')[matches(//tei:TEI/attribute::xml:id,$q)]
 
@@ -342,15 +342,15 @@ where
     else
       if (not(empty($postscriptDateline)))
       then concat('- [x] ',$url,'&#10;',string-join(
-  ('  - [x] Edit existing `postscript/p` to `closer/dateline`:&#10;```xml&#10;',serialize($postscriptDateline),'```&#10;**OR**&#10;  - [x] Add `dateline`:&#10;```xml&#10;<dateline>',$newDateline,'</dateline>&#10;```'),'&#10;'))
+  ('  - [x] Edit existing `postscript/p` to `closer/dateline`:&#10;```xml&#10;',serialize($postscriptDateline),'```&#10;**OR**&#10;  - [x] Add `dateline`:&#10;```xml&#10;<dateline>',$newDateline,'</dateline>&#10;```&#10;  - [x] Add/Update `frus:doc-dateTime-min` and `frus:doc-dateTime-max`'),'&#10;'))
       else
           if (not(empty($possibleCloserDateline)))
           then concat('- [x] ',$url,'&#10;',string-join(
-    ('  - [x] Edit existing `p` and add `dateline` to new `closer`:&#10;```xml',serialize($possibleCloserDateline),'```&#10;**OR**&#10;  - [x] Add `dateline`:&#10;```xml&#10;<dateline>',$newDateline,'</dateline>&#10;```'),'&#10;'))
+    ('  - [x] Edit existing `p` and add `dateline` to new `closer`:&#10;```xml',serialize($possibleCloserDateline),'```&#10;**OR**&#10;  - [x] Add `dateline`:&#10;```xml&#10;<dateline>',$newDateline,'</dateline>&#10;```&#10;  - [x] Add/Update `frus:doc-dateTime-min` and `frus:doc-dateTime-max`'),'&#10;'))
           else
             if (not(empty($newDateline)))
             then concat('- [x] ',$url,'&#10;',string-join(
-            ('  - [x] Add `dateline`:&#10;```xml&#10;<dateline>',$newDateline,'</dateline>&#10;```'),'&#10;'))
+            ('  - [x] Add `dateline`:&#10;```xml&#10;<dateline>',$newDateline,'</dateline>&#10;```&#10;  - [x] Add/Update `frus:doc-dateTime-min` and `frus:doc-dateTime-max`'),'&#10;'))
             else 'error'
 
 
