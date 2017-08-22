@@ -45,7 +45,9 @@ let $docIssues :=
     replace(
       replace(
         replace(
-          replace(data($head), '([Pp]\. m\.|[Pp]\.m\.)', 'p.m.'),
+          replace(
+            replace(data($head),'(\d{1,2})([(nd)(rd)(st)(th)]*)','$1'),
+          '([Pp]\. m\.|[Pp]\.m\.)', 'p.m.'),
             '([Aa]\. m\.|[Aa]\.m\.)', 'a.m.'),
               'Noon', 'noon'),
                 'Midnight', 'midnight')
@@ -56,7 +58,7 @@ let $docIssues :=
   (: dateTime in Head :)
   let $dResult :=
   
-    let $d := (tokenize(functx:trim(serialize(functx:get-matches(normalize-space(serialize(data($headReplace))),'(January|February|March|April|May|June|July|August|September|October|November|December)\s+\d{1,2},\s+\d{4}'))),'\s\s+'))[1]
+  let $d := (tokenize(functx:trim(serialize(functx:get-matches(normalize-space(serialize(data($headReplace))),'(January|February|March|April|May|June|July|August|September|October|November|December)\s+\d{1,2},\s+\d{4}'))),'\s\s+'))[1]
         
     let $year := substring-after($d, ', ')
     let $month :=
@@ -74,7 +76,7 @@ let $docIssues :=
            case "November" return "11"
            case "December" return "12"
            default return "error"         
-    let $day := data(substring-after(substring-before($d, ','),' '))
+    let $day := data(substring-after(substring-before($d, ','), ' '))
         
     let $dISO := concat($year,'-',$month,'-',functx:pad-integer-to-length($day,2))
     
