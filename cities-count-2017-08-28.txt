@@ -1,0 +1,436 @@
+Place Name	Number of Documents
+ ---	---
+Washington	114159
+London	9637
+Paris	7987
+Moscow	5668
+New York	4109
+Tokyo	3653
+Nanking	3477
+Geneva	3101
+Berlin	2854
+Chungking	2672
+Peiping	2152
+Shanghai	2111
+Saigon	2091
+Rome	1755
+Buenos Aires	1691
+Tehran	1586
+Rio de Janeiro	1535
+Cairo	1410
+Athens	1180
+Habana	1167
+Santiago	1166
+Peking	1155
+New Delhi	993
+Seoul	990
+Bern	974
+Vienna	953
+Ankara	933
+Madrid	925
+Panama	809
+Managua	804
+Bonn	796
+Stockholm	722
+The Hague	683
+Belgrade	664
+Quito	659
+Brussels	631
+Montevideo	615
+Lima	608
+La Paz	591
+Taipei	591
+Bangkok	580
+Tel Aviv	576
+San José	573
+Beirut	572
+Guatemala	569
+Mexico City	542
+Santo Domingo	528
+Budapest	510
+Port-au-Prince	504
+Canton	492
+Helsinki	487
+Sofia	487
+Algiers	474
+Warsaw	474
+Monrovia	473
+Lisbon	465
+Bucharest	459
+Copenhagen	458
+Petrograd	456
+Manila	427
+Jerusalem	417
+Vientiane	386
+Baghdad	383
+Hankow	381
+Babelsberg	362
+Caracas	357
+Tegucigalpa	355
+Amman	351
+Port au Prince	339
+Ottawa	325
+Tangier	320
+Karachi	308
+Salvador	300
+San Salvador	286
+Tientsin	283
+Addis Ababa	277
+Praha	261
+San Francisco	230
+Mukden	228
+Ciudad Trujillo	210
+Havana	210
+Trujillo	210
+Hong Kong	206
+Damascus	189
+Vladivostok	187
+Tsingtao	186
+Hanoi	185
+Rangoon	182
+Frankfurt	181
+Vera Cruz	177
+Beijing	159
+Kabul	157
+Teheran	156
+Archangel	151
+Dublin	147
+Quebec	144
+Istanbul	143
+Nicosia	138
+Tampico	134
+Guatemala City	131
+Phnom Penh	129
+Potsdam	125
+Volo	121
+Canberra	119
+Panamá	118
+Honolulu	115
+Panama City	115
+Oslo	113
+Riga	110
+Prague	105
+Colombo	103
+Dairen	101
+Casablanca	97
+Barcelona	92
+Harbin	89
+Versailles	89
+Tunis	87
+Tallinn	84
+Chihuahua	77
+Valencia	75
+Pretoria	73
+México, D. F.	71
+Tirana	71
+Tripoli	71
+Reykjavik	69
+Amoy	68
+Cali	67
+Camp David	67
+Sydney	64
+Yenan	61
+St. Petersburg	60
+Rabat	58
+Leningrad	56
+Kunming	54
+Wellington	54
+Nogales	53
+Rawalpindi	53
+Bogota	51
+Omsk	51
+Seville	51
+San Sebastian	49
+Vatican City	49
+Georgetown	48
+Newport	48
+Lausanne	47
+Yalta	46
+Luxembourg	44
+Trieste	44
+Tihwa	43
+Naples	42
+Kingston	41
+Cape Town	40
+Niagara Falls	40
+Mexico, D. F.	38
+Dhahran	37
+Pau	37
+Dakar	36
+Manchester	36
+Accra	35
+Hyde Park	34
+Guayaquil	33
+São Paulo	33
+Bordeaux	32
+Hamilton	32
+Saltillo	32
+Islamabad	31
+Riyadh	31
+Havre	30
+Abo	29
+Strasbourg	29
+Hamburg	28
+Mazatlan	28
+Corfu	27
+Cork	27
+Kinshasa	24
+Lagos	24
+San Jose	24
+Guadalajara	23
+Hermosillo	23
+Singapore	23
+Chefoo	22
+Guaymas	22
+Kweilin	22
+Alexandria	21
+Nairobi	21
+Tiflis	21
+Aden	20
+Nuevo Laredo	20
+Asuncion	19
+Changchun	19
+Liverpool	19
+Nassau	19
+Viborg	19
+Bridgetown	18
+Gibraltar	18
+Malta	18
+Munich	18
+Cape Haitien	16
+Foochow	15
+Benghazi	14
+Durango	14
+Ensenada	14
+Florence	14
+Iquitos	14
+Tabriz	14
+Zurich	14
+Leghorn	13
+Marseille	13
+Newchwang	13
+Puerto Plata	13
+Cayenne	12
+Asmara	11
+Godthaab	11
+San Juan	11
+Basel	10
+Lusaka	10
+Salzburg	10
+Swatow	10
+Torreon	10
+Tsinan	10
+Albany	9
+Bluefields	9
+Glasgow	9
+Hue	9
+Montreal	9
+San Antonio	9
+Verona	9
+Vigo	9
+Amsterdam	8
+Brasilia	8
+Brazzaville	8
+Ciudad Juarez	8
+Dar es Salaam	8
+Fiume	8
+Genoa	8
+Halifax	8
+Kuala Lumpur	8
+Odessa	8
+Port Limon	8
+Stuttgart	8
+Vancouver	8
+Windsor	8
+Colon	7
+Corinto	7
+Edinburgh	7
+Libau	7
+Plymouth	7
+Rotterdam	7
+Sheffield	7
+Topolobampo	7
+Turin	7
+Antwerp	6
+Bari	6
+Belize City	6
+Bristol	6
+Jakarta	6
+Manzanillo	6
+Potosi	6
+Salonika	6
+San Luis Potosi	6
+Valparaiso	6
+Victoria	6
+Cardiff	5
+Erie	5
+Khartoum	5
+Kobe	5
+Kovno	5
+Leeds	5
+Malaga	5
+Melbourne	5
+Nottingham	5
+Paramaribo	5
+Salerno	5
+St. Gall	5
+Yokohama	5
+Acapulco	4
+Conakry	4
+Danzig	4
+Dundee	4
+Fort Erie	4
+Hull	4
+Kampala	4
+Kathmandu	4
+Muscat	4
+Newcastle	4
+Nice	4
+Reval	4
+St. Michael’s	4
+Taiz	4
+Valletta	4
+Barranquilla	3
+Bologna	3
+Catania	3
+Changsha	3
+Chunking	3
+Esmeraldas	3
+Frontera	3
+Galveston	3
+Huddersfield	3
+Lahore	3
+Leith	3
+Lyon	3
+Nagasaki	3
+Perth	3
+Piedras Negras	3
+Progreso	3
+Rostoff	3
+Saint George’s	3
+Santander	3
+Southampton	3
+St. John	3
+Abidjan	2
+Abu Dhabi	2
+Antofagasta	2
+Aruba	2
+Belfast	2
+Birmingham	2
+Bradford	2
+Bremen	2
+Cananea	2
+Cannes	2
+Carlisle	2
+Carthagena	2
+Ciudad Porfirio Diaz	2
+Dhaka	2
+Enugu	2
+Granada	2
+Guanajuato	2
+Iquique	2
+Johannesburg	2
+Kuwait City	2
+Leipzig	2
+Limerick	2
+Lome	2
+Luanda	2
+Lucerne	2
+Manama	2
+Matamoros	2
+Messina	2
+Milan	2
+Oran	2
+Pará	2
+Port of Spain	2
+Portsmouth	2
+Santa Clara	2
+Sligo	2
+Taganrog	2
+Venice	2
+Waterford	2
+Zacatecas	2
+Aleppo	1
+Ancona	1
+Angers	1
+Antilla	1
+Arica	1
+Barnsley	1
+Bergen	1
+Boulogne	1
+Brest	1
+Brockville	1
+Brunn	1
+Cape Palmas	1
+Carlsruhe	1
+Cartagena	1
+Chatham	1
+Cherbourg	1
+Cienfuegos	1
+Clifton	1
+Cochabamba	1
+Cologne	1
+Coro	1
+Dresden	1
+Dunfermline	1
+Elizabethville	1
+Flushing	1
+Furth	1
+Gaborone	1
+Galt	1
+Galway	1
+Ghent	1
+Greenock	1
+Guantanamo	1
+Haifa	1
+Hangchow	1
+Hartlepool	1
+Horta	1
+Ilo	1
+Isfahan	1
+Izmir	1
+Jalapa	1
+Kidderminster	1
+La Rochelle	1
+Latakia	1
+Leicester	1
+Los Mochis	1
+Lugano	1
+Madras	1
+Magdalena	1
+Majuro	1
+Medan	1
+Mogadishu	1
+Morpeth	1
+Murree	1
+Naha, Okinawa	1
+Nancy	1
+Osaka	1
+Palermo	1
+Peterborough	1
+Podgorica	1
+Port Rowan	1
+Port Said	1
+Puerto Cabezas	1
+Roubaix	1
+Salina Cruz	1
+Sanaa	1
+Santa Cruz	1
+Santa Fe	1
+Sherbrooke	1
+Shiraz	1
+Sivas	1
+Stavanger	1
+Stettin	1
+Sunderland	1
+Tashkent	1
+Tela	1
+Thessaloniki	1
+Toronto	1
+Toulouse	1
+Trebizond	1
+Trinidad	1
+Waterloo	1
+Wolverhampton	1
+Worcester	1
+Yaounde	1
