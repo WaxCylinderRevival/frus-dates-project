@@ -10,7 +10,7 @@
 : All mistakes my own.
 :
 : @author: Amanda T. Ross
-: @since: 2017-04
+: @since: 2017-08
 :)
 
 xquery version "3.1";
