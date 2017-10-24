@@ -17,15 +17,16 @@ xquery version "3.1";
 
 declare namespace tei="http://www.tei-c.org/ns/1.0";
 
-import module namespace functx="http://www.functx.com" at "functx-1.0.xq";
+declare namespace frus="http://history.state.gov/frus/ns/1.0";
 
+import module namespace functx="http://www.functx.com" at "functx-1.0.xq";
+(:
 let $q := 'frus1918Supp02'
 
 let $coll := collection('frus-volumes')[matches(//tei:TEI/attribute::xml:id,$q)]
-
-(:
-let $coll := collection('frus-volumes')
 :)
+let $coll := collection('frus-volumes')
+
 for $v in ($coll/tei:TEI)
 
 let $vID := $v//tei:publicationStmt/tei:idno[attribute::type='frus']
@@ -34,7 +35,7 @@ let $cities := '(Aarhus|Aberdeen|Abidjan|Abo|Abu Dhabi|Abuja|Acajutla|Acapulco|A
 
 let $docIssues :=
 
-  for $doc in $v//tei:div[attribute::type='document'][not(matches(tei:head,'(Editorial|Editor’s)'))]
+  for $doc in $v//tei:div[attribute::type='document'][attribute::subtype='historical-document']
   
   let $docID := data($doc/attribute::xml:id)
   let $volID := data($doc/ancestor::tei:TEI/attribute::xml:id)
@@ -334,7 +335,7 @@ let $possibleCloserDateline :=
     
 where
     
-  (not(exists($doc//tei:dateline))) and
+  (not(exists($doc//tei:dateline[not(ancestor::frus:attachment)]))) and
   (
     not(empty($newDateline)) or not(empty($unmarkedDateline)) or not(empty($postscriptDateline)) or not(empty($possibleCloserDateline))
   )

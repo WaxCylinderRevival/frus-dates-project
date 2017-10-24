@@ -22,7 +22,7 @@ Issue | Frequency | Example(s) of Current FRUS Date Value
 {
 
 let $coll := collection('frus-volumes')
-let $docs := $coll//tei:div[attribute::type='document']
+let $docs := $coll//tei:div[attribute::type='document'][attribute::subtype='historical-document']
 let $total := count($docs)
 
 let $q := $docs//tei:dateline[tei:date[not(attribute::when)]]

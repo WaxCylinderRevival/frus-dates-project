@@ -23,7 +23,7 @@ Attribute Name | Frequency | Overall Percentage
 {
 
 let $coll := collection('frus-volumes')
-let $docs := $coll//tei:div[attribute::type='document']
+let $docs := $coll//tei:div[attribute::type='document'][attribute::subtype='historical-document']
 let $total := count($docs)
 
 let $date := $docs//tei:dateline/tei:date

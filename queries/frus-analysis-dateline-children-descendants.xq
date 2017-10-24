@@ -18,7 +18,7 @@ declare option output:method "text";
 
 let $coll := collection('frus-volumes')
 
-let $docs := $coll//tei:div[attribute::type='document']
+let $docs := $coll//tei:div[attribute::type='document'][attribute::subtype='historical-document']
 let $total := count($docs)
 
 let $children :=
@@ -30,7 +30,7 @@ let $descendants :=
   return $descName
   
 (: for children of dateline :)
-
+(:
 let $cRows :=
   for $dName in distinct-values($docs/tei:opener/tei:dateline/*/name())
   let $freq :=  count($children[matches(.,$dName)])
@@ -41,9 +41,9 @@ return
 <text>Children of `dateline` | Frequency | Overall Percentage
 --- | --- | ---
 {$cRows}</text>
-
+:)
 (: for descendants of dateline :)
-(:
+
 let $dRows :=
   for $dName in distinct-values($docs/tei:opener/tei:dateline//*/name())
   let $freq :=  count($descendants[matches(.,$dName)])
@@ -54,4 +54,4 @@ return
 <text>Descendants of `dateline` | Frequency | Overall Percentage
 --- | --- | ---
 {$dRows}</text>
-:)
+

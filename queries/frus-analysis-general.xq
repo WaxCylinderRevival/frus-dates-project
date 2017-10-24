@@ -20,9 +20,9 @@ let $total := count($docs)
 
 (: generalStats :)
 
-let $eNoteCount := count($docs/tei:head[not(note)][matches(., '(Editorial Note|Editor’s Note)')])
+let $eNoteCount := count($docs[attribute::subtype='editorial-note'])
 let $eNotePercent := format-number(($eNoteCount div $total),'##0.##%')
-let $hDocCount := $total - $eNoteCount
+let $hDocCount := count($docs[attribute::subtype='historical-document'])
 let $hDocPercent := format-number(($hDocCount div $total),'##0.##%')
 
 let $date := current-date()
