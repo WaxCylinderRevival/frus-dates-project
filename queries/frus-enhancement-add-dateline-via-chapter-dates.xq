@@ -21,7 +21,7 @@ import module namespace functx="http://www.functx.com" at "http://www.xqueryfunc
 
 let $q := 'frus1945Berlinv02'
 
-let $coll := collection('frus-volumes')[matches(//tei:TEI/attribute::xml:id,$q)]
+let $coll := collection('frus-volumes')[matches(tei:TEI/attribute::xml:id,$q)]
 
 for $v in ($coll/tei:TEI)
 
