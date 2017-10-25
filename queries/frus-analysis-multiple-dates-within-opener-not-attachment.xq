@@ -14,6 +14,8 @@ xquery version "3.1";
 
 declare namespace tei="http://www.tei-c.org/ns/1.0";
 
+declare namespace frus="http://history.state.gov/frus/ns/1.0";
+
 declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
 declare option output:method "text";
 
@@ -29,7 +31,7 @@ let $total := count($docs)
 let $dateCounts :=
   for $doc in $docs
   let $id := data($doc/attribute::xml:id)
-  let $date := $doc//tei:opener/tei:dateline/tei:date
+  let $date := $doc//tei:opener[not(ancestor::frus:attachment)]/tei:dateline/tei:date
   let $dateCount := count($date)
   return
     <doc id="{$id}">{$dateCount}</doc>
