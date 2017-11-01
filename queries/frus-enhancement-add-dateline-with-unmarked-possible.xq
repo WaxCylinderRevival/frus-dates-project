@@ -21,7 +21,7 @@ declare namespace frus="http://history.state.gov/frus/ns/1.0";
 
 import module namespace functx="http://www.functx.com" at "functx-1.0.xq";
 (:
-let $q := 'frus1931-41v02'
+let $q := 'frus1977-80v17p3'
 
 let $coll := collection('frus-volumes')[matches(//tei:TEI/attribute::xml:id,$q)]
 :)
