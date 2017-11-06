@@ -130,46 +130,48 @@ declare function local:ordinal-to-dd($dth) {
   };
   
   declare function local:frusYear-to-yyyy($yearOfOurLord) {
-  let $century := switch (analyze-string(lower-case($yearOfOurLord),'(nine|eight) hundred',"i")/fn:match)
-    case "nine hundred" return "9"
-    case "eight hundred" return "8"
-    default return "error"
     
-  let $yearA := switch(analyze-string(lower-case(substring-after($yearOfOurLord,'hundred')),'(ninety|eighty|seventy|sixty|fifty|forty|thirty|twenty|nineteen|eighteen|seventeen|sixteen|fifteen|fourteen|thirteen|twelve|eleven|ten)',"i")/fn:match)
-    case "ninety" return "90"
-    case "eighty" return "80"
-    case "seventy" return "70"
-    case "sixty" return "60"
-    case "fifty" return "50"
-    case "forty" return "40"
-    case "thirty" return "30"
-    case "twenty" return "20"
-    case "nineteen" return "19"
-    case "eighteen" return "18"
-    case "seventeen" return "17"
-    case "sixteen" return "16"
-    case "fifteen" return "15"
-    case "fourteen" return "14"
-    case "thirteen" return "13"
-    case "twelve" return "12"
-    case "eleven" return "11"
-    case "ten" return "10"
-    default return '0'
- 
-  let $yearB := switch(analyze-string(lower-case(substring-after($yearOfOurLord,'hundred')),'(nine$|eight$|seven$|six$|five$|four$|three$|two$|one$)',"i")/fn:match[1])   
-
-    case "nine" return "9"
-    case "eight" return "8"
-    case "seven" return "7"
-    case "six" return "6"
-    case "five" return "5"
-    case "four" return "4"
-    case "three" return "3"
-    case "two" return "2"
-    case "one" return "1"
-    default return "0"
+    let $century := switch (analyze-string(lower-case($yearOfOurLord),'(nine|eight) hundred',"i")/fn:match)
+      case "nine hundred" return "9"
+      case "eight hundred" return "8"
+      default return "error"
+      
+    let $yearA := switch(analyze-string(lower-case(substring-after($yearOfOurLord,'hundred')),'(ninety|eighty|seventy|sixty|fifty|forty|thirty|twenty|nineteen|eighteen|seventeen|sixteen|fifteen|fourteen|thirteen|twelve|eleven|ten)',"i")/fn:match)
+      case "ninety" return "90"
+      case "eighty" return "80"
+      case "seventy" return "70"
+      case "sixty" return "60"
+      case "fifty" return "50"
+      case "forty" return "40"
+      case "thirty" return "30"
+      case "twenty" return "20"
+      case "nineteen" return "19"
+      case "eighteen" return "18"
+      case "seventeen" return "17"
+      case "sixteen" return "16"
+      case "fifteen" return "15"
+      case "fourteen" return "14"
+      case "thirteen" return "13"
+      case "twelve" return "12"
+      case "eleven" return "11"
+      case "ten" return "10"
+      default return '0'
+   
+    let $yearB := switch(analyze-string(lower-case(substring-after($yearOfOurLord,'hundred')),'(nine$|eight$|seven$|six$|five$|four$|three$|two$|one$)',"i")/fn:match[1])   
+  
+      case "nine" return "9"
+      case "eight" return "8"
+      case "seven" return "7"
+      case "six" return "6"
+      case "five" return "5"
+      case "four" return "4"
+      case "three" return "3"
+      case "two" return "2"
+      case "one" return "1"
+      default return "0"
     
-  return concat('1', $century, ((xs:integer($yearA) + xs:integer($yearB)) => xs:integer() => format-number('00')))
+    return concat('1', $century, ((xs:integer($yearA) + xs:integer($yearB)) => xs:integer() => format-number('00')))
+    
 };
 
 declare function local:create-date-elements($input) {
