@@ -96,7 +96,7 @@ let $outliers :=
 
 for $issue in $outlierVolumes
 
-  let $issuetitle := concat(count($issue/outliers/outlier),' possible error(s) in volume ',data($issue/id))
+  let $issuetitle := concat('Resolve ', count($issue/outliers/outlier),' possible error(s) in volume ',data($issue/id))
   let $issueIntro := 
       if (data($issue/coverageSingle) eq '')
       then concat(data($issue/coverageFrom), ' to ',data($issue/coverageTo))
