@@ -157,7 +157,7 @@ declare function local:ordinal-to-dd($dth) {
 };
 (: End date conversion :)
 
-declare function local:get-dates($source as xs:string*) {
+declare function local:get-dates($source) {
     let $month-day-year-regex := $local:regexes?month-regex                     || '\s+'            || $local:regexes?day-regex        || ',?\s+'                    || $local:regexes?year-regex
     let $month-day-range-year-regex := $local:regexes?month-regex               || '\s+'            || $local:regexes?day-range-regex  || ',?\s+'                    || $local:regexes?year-regex 
     let $day-month-year-regex := $local:regexes?day-regex                       || '\s+'            || $local:regexes?month-regex      || ',?\s+'                    || $local:regexes?year-regex
@@ -166,12 +166,9 @@ declare function local:get-dates($source as xs:string*) {
     let $day-month-year-official-regex := $local:regexes?day-spelled-out-regex  || '\s+day\s+of\s+' || $local:regexes?month-regex      || ',\s+in\s+the\s+year\s+of\s+(?:our|the)\s+lord\s+'  || $local:regexes?year-spelled-out-regex
     
     
-  let $analysis := analyze-string(normalize-space($source), $month-day-year-regex, "i")
-  for $result in $analysis/(fn:match|fn:non-match)
-  return 
-    typeswitch($result)
-      case element(fn:match) return <date when="{$analysis/fn:match/fn:group[attribute::nr='3']}-{$analysis/fn:match/fn:group[attribute::nr='1'] => local:month-to-mm()}-{$analysis/fn:match/fn:group[attribute::nr='2'] => format-number('00')}">{data($result)}</date>
-      default return data($result)
+  
+  let $word := $source
+  return $word
 };
 
 declare function local:date-recursion($input) {
@@ -183,7 +180,7 @@ declare function local:date-recursion($input) {
           { $node/node-name() }
           { $node/attribute::*, local:date-recursion($node/node()) }
       case text() return $node => local:get-dates()
-      default return "error"
+      default return "dunno."
 };
 
 let $input := <head>The first date is <hi>February 2d, 1865</hi>. The next date is march 10 2010.  The <strong>third</strong> date is <hi rend="italic">31st July</hi> 2015.<note>This is a note with a date: September 1-3rd, 1929.</note> An example of an official date is the 2d day of May, in the year of the lord one thousand nine hundred twenty. Another example is the twenty-fifth day of June, in the year of our Lord one thousand eight hundred sixty-five. This is a French date with whitespace: le 13 août

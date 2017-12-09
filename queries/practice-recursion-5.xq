@@ -11,9 +11,128 @@ declare variable $local:regexes :=
   "day-spelled-out-regex" : "(?:(\d{1,2})(?:st|d|nd|rd|th)?|((?:thirty|twenty)?(?:-|–|\s+)?(?:thirtieth|twentieth|nineteenth|eighteenth|seventeenth|sixteenth|fifteenth|fourteenth|thirteenth|twelfth|eleventh|tenth|ninth|eighth|seventh|sixth|fifth|fourth|third|second|first)?))",
   "year-spelled-out-regex" : "(one\s+thousand\s+(?:nine|eight)\s+hundred\s+(?:ninety|eighty|seventy|sixty|fifty|forty|thirty|twenty)?(?:-|–|\s+)?(?:nineteen|eighteen|seventeen|sixteen|fifteen|fourteen|thirteen|twelve|eleven|ten|nine|eight|seven|six|five|four|three|two|one)?)",
   "month-day-year-regex" : "(January|February|March|April|May|June|July|August|September|October|November|December)\s+(\d{1,2})(?:st|d|nd|rd|th)?\s*[-–—]\s*(\d{1,2})(?:st|d|nd|rd|th)?,?\s+(\d{4})"
-  }
-;
-
+  };
+  
+declare variable $local:patterns := 
+  map {
+  "month-day-year-regex" : $local:regexes?month-regex                     || '\s+'            || $local:regexes?day-regex        || ',?\s+'                    || $local:regexes?year-regex,
+  "month-day-range-year-regex" : $local:regexes?month-regex               || '\s+'            || $local:regexes?day-range-regex  || ',?\s+'                    || $local:regexes?year-regex,
+  "day-month-year-regex" : $local:regexes?day-regex                       || '\s+'            || $local:regexes?month-regex      || ',?\s+'                    || $local:regexes?year-regex,
+  "day-month-year-regex-fr" : $local:regexes?day-regex                    || '\s+'            || $local:regexes?month-regex-fr   || ',?\s+'                    || $local:regexes?year-regex,
+  "day-month-year-regex-sp" : $local:regexes?day-regex                    || '\s+(?:de\s+)?'  || $local:regexes?month-regex-sp   || ',?\s+(?:(?:de|del)\s+)?'  || $local:regexes?year-regex,
+  "day-month-year-official-regex" : $local:regexes?day-spelled-out-regex  || '\s+day\s+of\s+' || $local:regexes?month-regex      || ',\s+in\s+the\s+year\s+of\s+(?:our|the)\s+lord\s+'  || $local:regexes?year-spelled-out-regex
+  };
+  
+declare variable $local:definitions :=
+  map {
+(:1:)  "month-day-year" : map {
+        "name": "month-day-year",
+        "regex": $local:patterns?month-day-year-regex,
+        "enrich-match": function($match as element(fn:match)) as element(date) {
+          let $groups := $match/fn:group
+          let $year := $groups[@nr eq "3"]
+          let $month := $groups[@nr eq "1"] => local:month-to-mm()
+          let $day := $groups[@nr eq "2"] => format-number('00')
+          let $when := ($year, $month, $day) => string-join("-")
+          return
+            element date {
+              attribute when { $when },
+              $match/string()
+            }
+          }
+        },
+(:2:) "month-day-range-year" : map {
+        "name": "month-day-range-year",
+        "regex": $local:patterns?month-day-range-year-regex,
+        "enrich-match": function($match as element(fn:match)) as element(date) {
+          let $groups := $match/fn:group
+          let $yearFrom := $groups[@nr eq "4"]
+          let $monthFrom := $groups[@nr eq "1"] => local:month-to-mm()
+          let $dayFrom := $groups[@nr eq "2"] => format-number('00')
+          let $from := ($yearFrom, $monthFrom, $dayFrom) => string-join("-")
+          let $yearTo := $groups[@nr eq "4"]
+          let $monthTo := $groups[@nr eq "1"] => local:month-to-mm()
+          let $dayTo := $groups[@nr eq "3"] => format-number('00')
+          let $to := ($yearTo, $monthTo, $dayTo) => string-join("-")
+          return
+            element date {
+              attribute from { $from },
+              attribute to { $to },
+              $match/string()
+            }
+          }
+        },
+(:3:) "day-month-year" : map {
+            "name" : "day-month-year",
+            "regex" : $local:patterns?day-month-year-regex,
+             "enrich-match": function($match as element(fn:match)) as element(date) {
+          let $groups := $match/fn:group
+          let $year := $groups[@nr eq "3"]
+          let $month := $groups[@nr eq "2"] => local:month-to-mm()
+          let $day := $groups[@nr eq "1"] => format-number('00')
+          let $when := ($year, $month, $day) => string-join("-")
+          return
+            element date {
+              attribute when { $when },
+              $match/string()
+            }
+          }
+        },
+(:4:) "day-month-year-fr" : map {
+            "name" : "day-month-year-fr",
+            "regex" : $local:patterns?day-month-year-regex-fr,
+             "enrich-match": function($match as element(fn:match)) as element(date) {
+          let $groups := $match/fn:group
+          let $year := $groups[@nr eq "3"]
+          let $month := $groups[@nr eq "2"] => local:month-to-mm()
+          let $day := $groups[@nr eq "1"] => format-number('00')
+          let $when := ($year, $month, $day) => string-join("-")
+          return
+            element date {
+              attribute when { $when },
+              $match/string()
+            }
+          }
+        },
+(:5:) "day-month-year-sp" : map {
+            "name" : "day-month-year-sp",
+            "regex" : $local:patterns?day-month-year-regex-sp,
+             "enrich-match": function($match as element(fn:match)) as element(date) {
+          let $groups := $match/fn:group
+          let $year := $groups[@nr eq "3"]
+          let $month := $groups[@nr eq "2"] => local:month-to-mm()
+          let $day := $groups[@nr eq "1"] => format-number('00')
+          let $when := ($year, $month, $day) => string-join("-")
+          return
+            element date {
+              attribute when { $when },
+              $match/string()
+            }
+          }
+        },
+(:6:) "day-month-year-official" : map {
+            "name" : "day-month-year-official",
+            "regex" : $local:patterns?day-month-year-official-regex,
+             "enrich-match": function($match as element(fn:match)) as element(date) {
+          let $groups := $match/fn:group
+          let $year := $groups[@nr eq "4"] => local:frusYear-to-yyyy()
+          let $month := $groups[@nr eq "3"] => local:month-to-mm()
+          let $dayPossible1 := $groups[@nr eq "1"] => format-number('00')
+          let $dayPossible2 := $groups[@nr eq "2"] => format-number('00')
+          let $when := 
+            if (exists($dayPossible1))
+            then ($year, $month, $dayPossible1) => string-join("-")
+            else
+              ($year, $month, $dayPossible2) => string-join("-")
+          return
+            element date {
+              attribute when { $when },
+              $match/string()
+            }
+          }
+        }
+      };
+      
 (: Begin date conversion :)
 declare function local:month-to-mm($m) {
   
@@ -157,21 +276,16 @@ declare function local:ordinal-to-dd($dth) {
 };
 (: End date conversion :)
 
-declare function local:get-dates($source as xs:string*) {
-    let $month-day-year-regex := $local:regexes?month-regex                     || '\s+'            || $local:regexes?day-regex        || ',?\s+'                    || $local:regexes?year-regex
-    let $month-day-range-year-regex := $local:regexes?month-regex               || '\s+'            || $local:regexes?day-range-regex  || ',?\s+'                    || $local:regexes?year-regex 
-    let $day-month-year-regex := $local:regexes?day-regex                       || '\s+'            || $local:regexes?month-regex      || ',?\s+'                    || $local:regexes?year-regex
-    let $day-month-year-regex-fr := $local:regexes?day-regex                    || '\s+'            || $local:regexes?month-regex-fr   || ',?\s+'                    || $local:regexes?year-regex
-    let $day-month-year-regex-sp := $local:regexes?day-regex                    || '\s+(?:de\s+)?'  || $local:regexes?month-regex-sp   || ',?\s+(?:(?:de|del)\s+)?'  || $local:regexes?year-regex
-    let $day-month-year-official-regex := $local:regexes?day-spelled-out-regex  || '\s+day\s+of\s+' || $local:regexes?month-regex      || ',\s+in\s+the\s+year\s+of\s+(?:our|the)\s+lord\s+'  || $local:regexes?year-spelled-out-regex
-    
-    
-  let $analysis := analyze-string(normalize-space($source), $month-day-year-regex, "i")
-  for $result in $analysis/(fn:match|fn:non-match)
-  return 
-    typeswitch($result)
-      case element(fn:match) return <date when="{$analysis/fn:match/fn:group[attribute::nr='3']}-{$analysis/fn:match/fn:group[attribute::nr='1'] => local:month-to-mm()}-{$analysis/fn:match/fn:group[attribute::nr='2'] => format-number('00')}">{data($result)}</date>
-      default return data($result)
+declare function local:get-dates($text as xs:string*) { 
+
+  for $definition in $local:definitions?* => tail()
+  let $analysis := analyze-string($text, $definition?regex,"i")
+  return
+    if ($analysis/fn:match) then
+      $definition?enrich-match($analysis/fn:match)
+      else 
+        'error'
+      
 };
 
 declare function local:date-recursion($input) {
@@ -186,7 +300,10 @@ declare function local:date-recursion($input) {
       default return "error"
 };
 
+
+
 let $input := <head>The first date is <hi>February 2d, 1865</hi>. The next date is march 10 2010.  The <strong>third</strong> date is <hi rend="italic">31st July</hi> 2015.<note>This is a note with a date: September 1-3rd, 1929.</note> An example of an official date is the 2d day of May, in the year of the lord one thousand nine hundred twenty. Another example is the twenty-fifth day of June, in the year of our Lord one thousand eight hundred sixty-five. This is a French date with whitespace: le 13 août
-                            1902. This is a Spanish date: 6 de Agosto de 1902. This is another: 8 de septiembre del 2010. The last date is September 29, 1881.</head>
+                            1902. This is a Spanish date: 6 de Agosto de 1902. This is another: 8 de septiembre del 2010. The last date is 29 September, 1881.</head>
+
 return
-  local:date-recursion($input)                 
+ local:date-recursion($input)
