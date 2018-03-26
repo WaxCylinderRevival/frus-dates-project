@@ -120,7 +120,7 @@ let $urls :=
   for $o in $outlier[whenDate[matches(.,$distinct)]]
   return concat('<li>',normalize-space($o/url),'</li>')  
   
-order by $freq descending, $distinct ascending
+order by $volDates ascending, $freq descending, $distinct ascending
   
 return 
 concat(data($distinct),' | ', $freq,' | `@when` outside of volume date range | <ul>',string-join($volDates),'</ul> | <ul>',string-join($entries),'</ul> | <ul>',string-join($urls),'</ul>&#10;')
