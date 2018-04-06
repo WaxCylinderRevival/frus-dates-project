@@ -54,4 +54,3 @@ return
 <text>Descendants of `dateline` | Frequency | Overall Percentage
 --- | --- | ---
 {$dRows}</text>
-

@@ -165,13 +165,19 @@ declare function local:get-dates($source as xs:string*) {
     let $day-month-year-regex-sp := $local:regexes?day-regex                    || '\s+(?:de\s+)?'  || $local:regexes?month-regex-sp   || ',?\s+(?:(?:de|del)\s+)?'  || $local:regexes?year-regex
     let $day-month-year-official-regex := $local:regexes?day-spelled-out-regex  || '\s+day\s+of\s+' || $local:regexes?month-regex      || ',\s+in\s+the\s+year\s+of\s+(?:our|the)\s+lord\s+'  || $local:regexes?year-spelled-out-regex
     
-    
+(: 1 :)  
   let $analysis := analyze-string(normalize-space($source), $month-day-year-regex, "i")
   for $result in $analysis/(fn:match|fn:non-match)
   return 
     typeswitch($result)
       case element(fn:match) return <date when="{$analysis/fn:match/fn:group[attribute::nr='3']}-{$analysis/fn:match/fn:group[attribute::nr='1'] => local:month-to-mm()}-{$analysis/fn:match/fn:group[attribute::nr='2'] => format-number('00')}">{data($result)}</date>
-      default return data($result)
+      default return data($result),   (: 2 :)
+      let $a2 := analyze-string(normalize-space($source), $day-month-year-regex-fr, "i")
+       for $r2 in $a2/(fn:match|fn:non-match)
+    return 
+    typeswitch($r2)
+    case element(fn:match) return<date when="{$s2/fn:match/fn:group[attribute::nr='3']}-{$s2/fn:match/fn:group[attribute::nr='2'] => local:month-to-mm()}-{$s2/fn:match-fr/fn:group[attribute::nr='1'] => format-number('00')}">{data($r2)}</date>
+    default return data($r2)
 };
 
 declare function local:date-recursion($input) {

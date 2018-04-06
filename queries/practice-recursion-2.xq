@@ -1,7 +1,7 @@
 xquery version "3.1";
 
 declare function local:chug($words as xs:string*) {
-  let $word := $words[1]
+    let $word := $words[1]
   return
     if (matches($word, "January|janvier|enero|February|février|fevrier|febrero|March|mart|marzo|April|avril|abril|May|mai|mayo|June|juin|junio|July|juillet|julio|August|août|aout|agosto|September|septembre|septiembre|setiembre|October|octobre|octubre|November|novembre|noviembre|December|décembre|decembre|diciembre","i"))
     then <month>{$word}</month>
